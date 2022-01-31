@@ -1,0 +1,18 @@
+<div class="row" data-aos="fade-up" data-aos-duration="1000">
+  <ng-container *ngFor="let item of repoServiceOrden.listMenuFilter">
+    <div class="row-group" >
+      <a [routerLink]="[item?.url]" class="btn btn-sm">
+        <button>
+          <img class="fit-picture" src="{{ item?.img }}" alt="100">
+          <span class="label">
+            <h4>{{ item?.text }}</h4>
+          </span>
+        </button>
+      </a>
+    </div>
+  </ng-container>
+  <div class=container>
+    <img class="line" src="/assets/images/line degrade.png" alt="" />
+    <img class="logo" src="/assets/images/logo d.png" alt="" />
+  </div>
+</div>

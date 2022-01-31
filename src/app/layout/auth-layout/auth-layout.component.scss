@@ -1,0 +1,117 @@
+.full-width-image {
+    min-height: 100vh;
+    width: 100vw;
+    background: url("../../../assets/images/photo-1505765050516-f72dcac9c60e.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  .auth-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  .auth-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100%;
+  }
+  
+  .card {
+    background-color: rgba(42, 42, 42, 0.8);
+    color: #FFF;
+  }
+
+
+  @import "./../../../styles/settings/breakpoints.scss";
+@import "./../../../styles/settings/layout.scss";
+@import "./../../../styles/settings/custom-colors.scss";
+
+
+
+
+
+
+.main-content {
+    padding: {
+        top: 0;
+        left: 15px;
+        right: 15px;
+        bottom: 0;
+    }
+    @include breakpoint($narrow-devices) {
+        padding: {
+            left: 15px;
+            right: 15px;
+        }
+    }
+    height: 100%;
+    overflow: auto;
+}
+
+.navbar {
+    min-width: 160px;
+    max-width: 160px;
+}
+
+///////////////////////////////estilos con sidebar///////////////////////////
+  
+.main-panel{
+  width: 100%;
+  flex: 1;
+  padding-left: 260px;
+}
+
+
+.wrapper {
+    position: relative;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    width: 100%;
+    flex: 1;
+  }
+  
+  .sidebar-panel{
+    width: 260px;
+    position: fixed;
+    height: 100%;
+    /*background-color: #D80B0B;*/
+    box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+    -webkit-transition: all 500ms;
+    -moz-transition: all 500ms;
+    -ms-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
+  }
+
+  .sidebar-background{
+    position: absolute;
+    z-index: 0;
+    height: 100%;
+    width: 100%;
+    display: block;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center center;
+    opacity: 0.2;
+    filter: alpha(opacity=10);
+    -webkit-transition: all 500ms;
+    -moz-transition: all 500ms;
+    -ms-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
+  }
+  
+  
+
+
+
+
+

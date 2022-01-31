@@ -1,0 +1,218 @@
+<ng-container *ngIf="!show">
+  <div class="limiter">
+    <div class="container-login100" data-aos="fade-up" data-aos-duration="1000">
+      <div class="wrap-login100">
+        <br />
+        <!-- start logo -->
+        <div class="login100-form-title">
+          <img
+            class="login100-form-logo"
+            src="../../../../../assets/images/logo_c.png"
+            alt=""
+          />
+          <br />
+          <h1 class="login100-form-title-1">Formulario de registro</h1>
+        </div>
+        <!-- end logo -->
+        <!-- start form -->
+        <form class="login100-form" [formGroup]="newForm">
+          <!-- start inputs -->
+          <div class="login100-inputs">
+            <input
+              class="login100-input"
+              type="text"
+              placeholder="Nombres"
+              formControlName="USU_Nombres"
+            />
+            <span
+              class="mt-0 form-text text-danger"
+              *ngIf="valSector('USU_Nombres')"
+              >Este campo debe ser diligenciado</span
+            >
+
+            <input
+              class="login100-input"
+              type="text"
+              placeholder="Apellidos"
+              formControlName="USU_Apellidos"
+            />
+            <span
+              class="mt-0 form-text text-danger"
+              *ngIf="valSector('USU_Apellidos')"
+              >Este campo debe ser diligenciado</span
+            >
+
+            <ng-container formGroupName="UDE_UsuarioDetalle">
+              <input
+                class="login100-input"
+                type="number"
+                placeholder="Numero telefónico"
+                formControlName="USU_Celular"
+              />
+              <span
+                class="mt-0 form-text text-danger"
+                *ngIf="
+                  newForm?.get('UDE_UsuarioDetalle')?.get('USU_Celular')
+                    .invalid &&
+                  newForm?.get('UDE_UsuarioDetalle')?.get('USU_Celular').touched
+                "
+                >Este campo debe ser diligenciado</span
+              >
+
+              <input
+                class="login100-input"
+                type="number"
+                placeholder="Numero Identificación Tributaria NIT"
+                formControlName="USU_NumeroIdentificacion"
+              />
+            </ng-container>
+            <input
+              class="login100-input"
+              type="text"
+              placeholder="Correo electrónico"
+              formControlName="USU_Email"
+            />
+
+            <span
+              class="mt-0 form-text text-danger"
+              *ngIf="valSector('USU_Email') || validateEmail"
+              >{{
+                valSector("USU_Email")
+                  ? "Este campo debe ser diligenciado"
+                  : "El correo ya existe"
+              }}</span
+            >
+
+            <input
+              class="login100-input"
+              type="password"
+              placeholder="Contraseña"
+              formControlName="USU_Contrasena"
+            />
+            <span
+              class="mt-0 form-text text-danger"
+              *ngIf="valSector('USU_Contrasena')"
+              >Este campo debe ser diligenciado</span
+            >
+
+            <input
+              class="login100-input"
+              type="password"
+              placeholder="Confirma contraseña"
+              formControlName="USU_Contrasena_Confirm"
+            />
+            <span class="mt-0 form-text text-danger" *ngIf="validatePassword()"
+              >Las contraseñas no coinciden</span
+            >
+          </div>
+
+          <!-- end inputs -->
+          <!-- start check -->
+          <div class="form-check">
+            <ng-container formGroupName="UDE_UsuarioDetalle">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="1"
+                id="Checkletter"
+                formControlName="USU_AceptaCondiciones"
+              />
+              <span class="form-check-label" for="Checkletter">
+                He leído y aceptado los términos y condiciones.
+              </span>
+              <br />
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value="1"
+                id="CheckNotice"
+                formControlName="USU_AceptaNoticiasOfertas"
+              />
+              <label class="form-check-label" for="CheckNotice">
+                Acepto recibir noticias y ofertas.
+              </label>
+            </ng-container>
+          </div>
+          <!-- end check -->
+          <!-- start button -->
+          <div class="login100-btns">
+            <button
+              type="submit"
+              class="btn btn-primary"
+              (click)="sendCodeEmail()"
+              [disabled]="newForm.invalid"
+            >
+              Regístrate
+            </button>
+          </div>
+          <!-- end button -->
+          <!--(click)="postForm()"-->
+          <div style="margin-bottom: 40px" class="title-2">
+            <span class="login100-form-title-2"
+              >Ya tienes cuenta!!!
+              <button class="btn btn-secondary btn-sm" routerLink="/login">
+                Inicio de sesión
+              </button>
+            </span>
+          </div>
+        </form>
+        <!-- end form -->
+      </div>
+    </div>
+  </div>
+</ng-container>
+<!-- ////////////////////////////////////////////////////Start Form Send Email///////////////////////////// -->
+<ng-container *ngIf="show">
+<div class="limiter">
+  <div class="container-login100">
+    <div
+      class="card"
+      [formGroup]="codeForm"
+    >
+      <div class="card-body">
+        <h1 class="login100-form-title-1 text-center">
+          Gracias por registrarte
+        </h1>
+        <div class="text-center">
+          <p class="form-check-label text-center">
+            Hemos enviado un correo de confirmacion al correo:
+            <strong>{{
+              newForm?.get("UDE_UsuarioDetalle")?.get("USU_Email")
+            }}</strong
+            ><br />
+            Por favor revisa tu correo para e ingresa el codigo aqui:
+          </p>
+          <br />
+        </div>
+        <div class="text-center mb-3">
+          <input
+            class="text-center"
+            type="number"
+            placeholder="codigo"
+            formControlName="Code_Validate"
+            #codigo
+          />
+        </div>
+        <div class="form-group text-center mb-3">
+          <button
+            class="btn-primary mr-2"
+            (click)="postForm(codigo.value)"
+          >
+            Confirmar codigo
+          </button>
+          <button class="btn-primary" (click)="sendCodeEmail()">
+            Reenviar correo
+          </button>
+        </div>
+        <div class="text-center">
+          <p routerLink="/login">
+            <a href="#" class="text-warning">Retornar a Inicio</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</ng-container>
+
+<!-- ////////////////////////////////////////////////////End Form Start Form Send Email///////////////////////////// -->

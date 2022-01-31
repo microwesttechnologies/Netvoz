@@ -1,0 +1,133 @@
+/*//////////////////////////////////////////////////////////////////
+[ login ]*/
+
+.container-login100 {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-image: url(../../../../../assets/images/login2_bg.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.wrap-login100 {
+  height: 570px;
+  width: 540px;
+  background: rgba(5, 0, 3, 0.5);
+  border-radius: 30px;
+  position: flex;
+  text-align: center;
+  padding: 0px;
+}
+
+/*==================================================================
+[ Title form ]*/
+
+.login100-form-title {
+  margin-top: 100px;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.login100-form-title-1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  color: #fff;
+  margin-left: 150px;
+}
+
+.title-2{
+  margin-top: 20px;
+  text-align: center;
+  width: 520px;
+}
+
+.login100-form-title-2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  color: #fff;
+
+  .btn-secondary {
+    color: rgb(255, 255, 255);
+    background-color: #9e1460;
+    font-size: 13px;
+    border-radius: 20px;
+    width: 110px;
+  }
+
+}
+
+/*=================================================================
+[Logo form]*/
+
+.login100-form-logo {
+  width: 300px;
+  display:block;
+  margin:auto;
+}
+
+/*==================================================================
+[ Form ]*/
+
+.login100-form {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+/*------------------------------------------------------------------
+[ Input ]*/
+
+.login100-inputs  {
+  width: auto;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.login100-input  {
+  background-color: #ffffff8c;
+  width: 440px;
+  height: 40px;
+  border-radius: 30px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #9e1460;
+}
+
+/*------------------------------------------------------------------
+[ Button]*/
+
+.login100-btns {
+  text-align: center;
+  width: 520px;
+  margin-top: 0px;
+}
+
+.btn-primary {
+  background-color: #9e1460;
+  border-radius: 30px;
+  width: 200px;
+  height: 40px;
+  font-size: 20px;
+}
+
+/*------------------------------------------------------------------
+[ Responsive ]*/
+
+@media (max-width: 480px) {
+  .login100-form {
+    padding: 43px 15px 57px 15px;
+  }
+}
+
+/*----------------------------------------------------------------*/

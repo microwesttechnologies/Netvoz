@@ -1,0 +1,10 @@
+<mat-form-field class="imput-full-width">
+    <mat-label>Unidad medida</mat-label>
+    <mat-select name="UME_Id" [formControl]="selectUme" (selectionChange)="umeSelect.emit($event.value)">
+        <mat-option *ngFor="let um of uMedidas" [value]="um.UME_Id">
+            {{um.UME_Nombre}}
+        </mat-option>
+    </mat-select>
+    <!-- <input matInput placeholder="Unidad medida"  formControlName="UME_Id" required> -->
+</mat-form-field>  
+

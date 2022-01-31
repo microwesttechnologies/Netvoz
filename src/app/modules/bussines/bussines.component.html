@@ -1,0 +1,171 @@
+<div class="container" data-aos="fade-right">
+  <div class="form">
+    <h1 class="tittle">Creacion de empresa</h1>
+    <form [formGroup]="bussinesForm">
+      <div class="container-image">
+        <div class="image">
+          <img [src]="image" class="image-res" *ngIf="imageRes" />
+        </div>
+        <button color="primary" class="btn-primary" mat-raised-button (click)="cargarImagen()">
+          Cargar imagen
+        </button>
+        <input type="file" class="form-control d-none" (change)="selectFile($event)" #fileUploader />
+      </div>
+      <!--Row 1-->
+      <div class="row">
+        <!--Numero de identificacion-->
+        <div class="col-5">
+          <mat-form-field class="imput-full-width">
+            <input type="number" matInput placeholder="Numero de identificacion" formControlName="EMP_Nit"/>
+          </mat-form-field>
+        </div>
+        <!--Nombre completo-->
+        <div class="col-7">
+          <mat-form-field class="imput-full-width">
+            <input type="text" matInput placeholder="Nombre completo de la empresa" formControlName="EMP_Nombre" />
+          </mat-form-field>
+        </div>
+      </div>
+      <!--Row 2-->
+      <div class="row">
+        <!-- Clasificacion -->
+        <div class="col-5">
+          <mat-form-field class="imput-full-width">
+            <mat-label>Clasificacion</mat-label>
+            <mat-select>
+              <mat-option>Ninguna</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--Direccion-->
+        <div class="col-7">
+          <mat-form-field class="imput-full-width">
+            <input type="text" matInput placeholder="Direccion" formControlName="EMP_Direccion" />
+          </mat-form-field>
+        </div>
+      </div>
+      <!--Row 3-->
+      <div class="row">
+        <!--Banco-->
+        <div class="col-4">
+          <mat-form-field class="imput-full-width">
+            <input type="text" matInput placeholder="Banco" formControlName="EMP_Banco"/>
+          </mat-form-field>
+        </div>
+        <!-- Tipo de cuenta -->
+        <div class="col-4">
+          <mat-form-field class="imput-full-width">
+            <mat-label>Tipo de cuenta</mat-label>
+            <mat-select formControlName="EMP_TipoCuenta">
+              <mat-option>Ninguna</mat-option>
+              <mat-option value="Cuenta Corriente">Cuenta Corriente</mat-option>
+              <mat-option value="Cuenta de ahorros">Cuenta de ahorros</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--Numero de cuenta-->
+        <div class="col-4">
+          <mat-form-field class="imput-full-width">
+            <input type="number" matInput placeholder="Numero de cuenta" formControlName="EMP_NumeroCuenta"/>
+          </mat-form-field>
+        </div>
+      </div>
+      <!--Row 4-->
+      <div class="row">
+        <!--Titular-->
+        <div class="col-3">
+          <mat-form-field class="imput-full-width">
+            <input type="text" matInput placeholder="Titular de la cuenta" formControlName="EMP_TitularCuenta"/>
+          </mat-form-field>
+        </div>
+        <!--Correo electronico-->
+        <div class="col-3">
+          <mat-form-field class="imput-full-width">
+            <input type="email" matInput placeholder="Correo electronico" formControlName="EMP_Email"/>
+          </mat-form-field>
+        </div>
+        <!-- Departamento -->
+        <div class="col-3">
+          <mat-form-field class="imput-full-width">
+            <mat-label>Departamento</mat-label>
+            <mat-select>
+              <mat-option>Ninguna</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Departamento -->
+        <div class="col-3">
+          <mat-form-field class="imput-full-width">
+            <mat-label>Ciudad</mat-label>
+            <mat-select>
+              <mat-option>Ninguna</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!--Row 5-->
+      </div>
+      <!-- Row-5 -->
+      <div class="row">
+        <!--Instagram-->
+        <div class="col-3">
+          <mat-form-field class="imput-full-width">
+            <input type="text" matInput placeholder="Instagram" formControlName="EMP_Instagram"/>
+          </mat-form-field>
+        </div>
+        <!--Facebook-->
+        <div class="col-3">
+          <mat-form-field class="imput-full-width">
+            <input type="text" matInput placeholder="Facebook" formControlName="EMP_Facebook"/>
+          </mat-form-field>
+        </div>
+        <!--Whatsapp-->
+        <div class="col-3">
+          <mat-form-field class="imput-full-width">
+            <input type="number" matInput placeholder="WhatsApp" formControlName="EMP_Whatsapp"/>
+          </mat-form-field>
+        </div>
+        <!-- color -->
+        <div class="col-3">
+          <mat-form-field class="example-full-widt">
+            <mat-chip-list #chipList aria-label="color selection" formControlName="EMP_Color">
+              <mat-chip *ngFor="let color of colors" [selectable]="selectable" [removable]="removable"
+                (removed)="remove(color)">
+                {{ color.name }}
+                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              </mat-chip>
+              <input matInput formControlName="DPR_Color" type="color" style="color: azure"
+                placeholder="Colores del producto*" [matChipInputFor]="chipList"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                (matChipInputTokenEnd)="add($event)" [value]="color" [style.background]="color" required />
+            </mat-chip-list>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="top-15" style="text-align: start">
+        <button class="btn-success" mat-raised-button (click)="save()" [disabled]=bussinesForm.invalid>
+          Crear empresa
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- <ngx-ui-loader
+  blur="15"
+  delay="0"
+  fastFadeOut="true"
+  fgsColor="#FFFFFF"
+  fgsPosition="center-center"
+  fgsSize="100"
+  fgsType="three-strings"
+  gap="24"
+  logoPosition="center-center"
+  logoSize="120"
+  masterLoaderId="master"
+  overlayBorderRadius="0"
+  overlayColor="rgba(40, 40, 40, 0.8)"
+  pbColor="#FFFFFF"
+  hasProgressBar="true"
+  text="Cargando..."
+  textColor="#FFFFFF"
+  textPosition="center-center"
+></ngx-ui-loader> -->

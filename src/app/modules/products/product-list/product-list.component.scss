@@ -1,0 +1,86 @@
+
+body {
+  position: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  height: 100%;
+  width: 100%;
+}
+
+main {
+  width: 100%;
+  padding: 20px;
+  margin: auto;
+  margin-top: 200px;
+}
+
+.container{
+  height: 100%;
+  position: relative;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  justify-content: center;
+  align-items: center;
+  margin: 30px 300px 0px 300px;
+}
+
+
+
+va-mat-table {
+    display: block;
+    width: 100%;
+  }
+
+.mat-form-field {
+    width: 50%;
+}
+
+.btn-secondary {
+    background-color: #9e1460;
+    color: #ffffff;
+}
+.mat-column-PRO_Codigo {
+    white-space: unset !important;
+    flex: 0 0 10% !important;
+    width: 10% !important;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .mat-column-PRO_PrecioUnidad {
+
+    white-space: unset !important;
+    flex: 0 0 10% !important;
+    width: 10% !important;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+  }
+
+  .vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+
+  .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    background-color: #8064A2;
+}
+
+.title {
+  font: oblique 180% cursive;
+}
+  
+

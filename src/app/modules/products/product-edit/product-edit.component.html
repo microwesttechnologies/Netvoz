@@ -1,0 +1,100 @@
+<h3 mat-dialog-title>{{ title }}</h3>
+<form [formGroup]="form" class="example-form">
+    <div class="row">
+      <div class="col-6">
+        <img [src]="image" width="100%">
+      </div>
+        <div class="col">
+            <mat-form-field class="imput-full-width" type="input">
+            <input matInput disabled placeholder="id" formControlName="PRO_Id" required>
+            </mat-form-field>
+         </div>
+         <div class="col">
+            <mat-slide-toggle formControlName="PRO_Estado" color="primary">Estado</mat-slide-toggle>
+         </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <mat-form-field class="imput-full-width">
+                <input matInput placeholder="Codigo" formControlName="PRO_Codigo" required>
+            </mat-form-field>
+        </div>
+        <div class="col-8">
+            <mat-form-field class="imput-full-width">
+                <input matInput placeholder="Nombre" formControlName="PRO_Nombre" required>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <mat-form-field class="imput-full-width">
+        <input matInput placeholder="Descripcion" formControlName="PRO_Descripcion">
+    </mat-form-field>
+    <mat-form-field class="imput-full-width">
+        <input matInput placeholder="Marca"  formControlName="PRO_Marca" required>
+    </mat-form-field>
+    <div class="row">
+        <div class="col-6">
+            <app-categoria-select
+               [idCate]="producto.CAT_Id"
+               [categorias]="categorias"
+               (catSelect)="onSelectCategoria($event)">
+            </app-categoria-select>
+        </div>
+        <div class="col-6">
+          <button color="primary" mat-raised-button (click)="cargarImagen()">
+         Editar imagen
+        </button>
+        <input type="file" class="form-control d-none" (change)="selectFile($event)" #fileUploader />
+        </div>
+    </div>
+    <div class="row">
+            <div class="col-6">
+                <app-umedida-select
+                [idUme]="producto.UME_Id"
+                [uMedidas]="umedidas"
+                (umeSelect)="onSelectUmedida($event)">
+                </app-umedida-select>
+            </div>
+            <div class="col-6">
+                <mat-form-field class="imput-full-width">
+                    <input matInput placeholder="Tamaño"  formControlName="PRO_Tamano" required>
+                </mat-form-field>
+            </div>
+     </div>
+    <div class="row">
+        <div class="col-6">
+               <mat-form-field class="imput-full-width" > <!-- appearance="outline" -->
+              <!--   <mat-label>Precio</mat-label> -->
+                <input matInput placeholder="Precio"  formControlName="PRO_PrecioUnidad" required>
+            </mat-form-field>
+        </div>
+    </div>
+
+</form>
+<div class="top-15" align="end">
+    <button mat-raised-button (click)="close()">Close</button>
+    <button class="btn-success" mat-raised-button [disabled]="form.invalid" (click)="save()">Save</button>
+</div>
+
+<ngx-ui-loader
+blur = "15"
+delay = "0"
+fastFadeOut = "true"
+fgsColor = "#FFFFFF"
+fgsPosition = "center-center"
+fgsSize = "100"
+fgsType = "three-strings"
+gap = "24"
+logoPosition = "center-center"
+logoSize = "120"
+masterLoaderId = "master"
+overlayBorderRadius = "0"
+overlayColor = "rgba(40, 40, 40, 0.8)"
+pbColor = "#FFFFFF"
+hasProgressBar = "true"
+text = "Cargando..."
+textColor = "#FFFFFF"
+textPosition = "center-center"
+ ></ngx-ui-loader>
+
+

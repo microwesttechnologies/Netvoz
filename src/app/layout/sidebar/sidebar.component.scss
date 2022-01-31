@@ -1,0 +1,88 @@
+.container {
+
+  height: 100vh;
+  border:none;
+  margin: 0px;
+  padding: 0px;
+  text-align: left;
+  width: 100%;
+}
+.container-sidenav{
+  background-color:rgba(240, 248, 255, 0);
+  width: 100%;
+}
+
+.sidenav-content {
+  display: flex;
+  align-items: right;
+  justify-content: right;
+}
+
+.sidenav {
+  background: linear-gradient(to right, rgba(158, 20, 96, 0.842), rgba(78, 77, 77, 0.842));
+  height: calc(100vh -4.5rem);
+  justify-content: right;
+  align-items: right;
+  margin-top: 4.5rem;
+  padding-left: 0px;
+  position: fixed;
+  border: none;
+  left:0;
+}
+
+h1 {
+  margin: 20px;
+  color:antiquewhite;
+}
+
+ul {
+  padding-left: 0px;
+}
+
+ol {
+  padding-left: 20px;
+  padding-top: 15px;
+  height: 50px;
+  width: 220px;
+  font-size: 20px;
+  color: antiquewhite;
+  align-items: center;
+  justify-content: center;
+  transition: 1s ease all;
+}
+
+ol:hover {
+  cursor: pointer;
+  color: #000000;
+  background-color: rgba(240, 248, 255, 0.5);
+}
+
+.fila{
+  position: fixed;
+  top: 4.5rem;
+  z-index: 2;
+  left: 0;
+}
+
+.btn {
+  height: 50px;
+  opacity: 0.3;
+  top:2px;
+  width: 50px;
+  z-index: 1;
+  background-image: url('../../../assets/images/menu.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: none;
+  margin: 15px;
+  transition: 0.5s ease all;
+}
+
+.btn:hover {
+  margin-left: 25px;
+  opacity: 1;
+}
+
+
+//crear efecto de movimiento boton

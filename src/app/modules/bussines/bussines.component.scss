@@ -1,0 +1,67 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.form {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  margin: 20px;
+  padding: 30px;
+  box-shadow: 0px 6px 5px 5px rgb(110, 108, 108);
+}
+
+.btn-success {
+  background-color: #673ab7;
+  color: #fff;
+}
+
+.btn-info {
+  background-color: #b0bec5;
+  color: #000000;
+}
+
+.imput-full-width {
+  width: 100%;
+}
+
+.btn-image {
+  margin-top: 15px;
+}
+
+.container-image {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+
+
+.tittle {
+  font-style: center;
+  font: oblique 140% cursive;
+  font-size: 30px;
+}
+
+.textarea {
+  height: 20vh;
+  background-color: #8d6f881f;
+}
+
+.image {
+  margin-bottom: 1vh;
+}
+
+.image-res{
+  width:250px;
+  height: 250px;
+  border-radius:150px;
+  text-decoration: none; 
+}

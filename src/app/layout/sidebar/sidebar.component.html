@@ -1,0 +1,40 @@
+<app-nav></app-nav>
+<mat-drawer-container class="container-sidenav" autosize>
+  <mat-drawer #drawer class="sidenav">
+    <h1><strong>MENU</strong></h1>
+
+    <ul>
+      <!-- Nav Item - Dashboard -->
+      <ol [routerLink]="['./dashboard']" routerLinkActive="active">
+        <p><i class="fas fa-tachometer-alt"></i> Dashboard</p>
+      </ol>
+      <!-- Nav Item - Dashboard -->
+      <ol [routerLink]="['./bussines']" routerLinkActive="active">
+        <p><i class="fas fa-building"></i> Crear empresa</p>
+      </ol>
+      <!-- Nav Item - Dashboard -->
+      <ol [routerLink]="['./products']" routerLinkActive="active">
+        <p><i class="fas fa-truck-loading"></i> Admin productos</p>
+      </ol>
+      <!-- Nav Item - Dashboard -->
+      <ol [routerLink]="['./contact']" routerLinkActive="active">
+        <p><i class="fas fa-address-book"></i> Contactenos</p>
+      </ol>
+      <!-- Nav Item - Dashboard -->
+      <!-- <ol [routerLink]="['./about']" routerLinkActive="active">
+        <p><i class="fas fa-address-card"></i> Nosotros</p>
+      </ol> -->
+      <!-- Nav Item - Dashboard -->
+      <ol (click)="logout()" routerLinkActive="router-link-active">
+        <p><i class="fas fa-door-open"></i> Cerrar sesion</p>
+      </ol>
+    </ul>
+  </mat-drawer>
+
+  <div class="fila">
+    <button class="btn" (click)="drawer.toggle()"></button>
+  </div>
+  <div class="page-content">
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

@@ -1,0 +1,15 @@
+<div class="figure-card card">
+    <div class="card-header" [ngStyle]="{ 'background': linearColor, 'box-shadow': boxShadow }">
+      <i class="material-icons">{{ headerIcon }}</i>
+    </div>
+    <div class="card-content">
+      <p class="category">{{ category }}</p>
+      <h3 class="title">{{ title }}</h3>
+     
+    </div>
+    <div class="card-footer">    
+       <button mat-mini-fab color="warn" (click)="onClickButton($event)" matTooltip="Ver detalle" aria-label="Example icon button with a heart icon">
+           <mat-icon>loupe</mat-icon>
+      </button>
+    </div>
+  </div>

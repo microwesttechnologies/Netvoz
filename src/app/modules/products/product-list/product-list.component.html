@@ -1,0 +1,145 @@
+<body>
+  <div class="container" data-aos="fade-right">
+    <h1 class="title">Administracion de Productos</h1>
+    <va-mat-table class="mat-elevation-z8">
+      <ng-container action-bar-items>
+        <!-- <div layout="row" layout-align="space-between center" flex class="layout-align-space-between-center layout-row flex"> -->
+        <mat-form-field>
+          <input
+            matInput
+            (keyup)="doFilter($event.target.value)"
+            placeholder="Buscar productos"
+          /> </mat-form-field
+        >
+        <button
+          class="btn-secondary"
+          style="margin-right: 10px"
+          mat-mini-fab
+          matTooltip="Nuevo producto"
+          (click)="newProducto()"
+        >
+          <mat-icon>add</mat-icon>
+        </button>
+        <button
+          class="btn-secondary"
+          style="margin-right: 10px"
+          mat-mini-fab
+          matTooltip="Exportar a excel"
+          (click)="exportArray()"
+        >
+          <mat-icon>text_snippet</mat-icon>
+        </button>
+        <button
+          class="btn-secondary"
+          mat-mini-fab
+          matTooltip="cargar productos"
+          (click)="redirectToImportExcel()"
+        >
+          <mat-icon>publish</mat-icon>
+        </button>
+      </ng-container>
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        matSortActive="id"
+        matSortDirection="desc"
+        matSortDisableClear
+        class="mat-elevation-z8"
+      >
+        <!-- Id Column -->
+        <ng-container matColumnDef="PRO_Codigo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+            Codigo
+          </th>
+          <td mat-cell *matCellDef="let producto">{{ producto.PRO_Codigo }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="PRO_Nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+          <td mat-cell *matCellDef="let producto">{{ producto.PRO_Nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="PRO_Descripcion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+          <td mat-cell *matCellDef="let producto">
+            {{ producto.PRO_Descripcion }}
+          </td>
+        </ng-container>
+
+        <!-- Work Type Column -->
+        <ng-container matColumnDef="PRO_PrecioUnidad">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
+          <td mat-cell *matCellDef="let producto">
+            {{ producto.PRO_PrecioUnidad | currency: "COP":"$" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="UME_UnidadesMedidaUME_Nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>UM</th>
+          <td mat-cell *matCellDef="let producto">
+            {{ producto.UME_UnidadesMedidaUME_Nombre }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="PRO_Tamano">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tamaño</th>
+          <td mat-cell *matCellDef="let producto">{{ producto.PRO_Tamano }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="CAT_CategoriasCAT_Nombre">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</th>
+          <td mat-cell *matCellDef="let producto">
+            {{ producto.CAT_CategoriasCAT_Nombre }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="PRO_Marca">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
+          <td mat-cell *matCellDef="let producto">{{ producto.PRO_Marca }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="PRO_Estado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+          <td mat-cell *matCellDef="let producto">
+            <mat-slide-toggle
+              color="primary"
+                              [(ngModel)]="producto.PRO_Estado"
+                (change)="onChangeEstado($event.checked, producto.PRO_Id)"
+
+            ></mat-slide-toggle>
+          </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Editar | Eliminar</th>
+          <td mat-cell *matCellDef="let producto">
+            <button mat-icon-button color="primary" matTooltip="Editar producto">
+              <mat-icon
+                (click)="editProducto(producto.PRO_Id)"
+                aria-label="editar producto"
+                >edit</mat-icon
+              >
+            </button>
+            <button mat-icon-button color="warn" matTooltip="Borrar a producto">
+              <mat-icon
+                (click)="deleteproducto(producto)"
+                aria-label="Borrar productos"
+                >delete_forever</mat-icon
+              >
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </va-mat-table>
+  </div>
+</body>

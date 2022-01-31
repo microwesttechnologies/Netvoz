@@ -1,0 +1,64 @@
+<!-- start div -->
+<div class="container-login100">
+  <div class="wrap-login100" data-aos="fade-up" data-aos-duration="1000">
+    <!-- start header -->
+    <div class="login100-form-title">
+      <span class="login100-form-title-1">Bienvenidos a:</span>
+      <br />
+      <br />
+      <img
+        class="login100-form-logo"
+        src="./assets/images/logo_c.png"
+        alt=""
+      />
+    </div>
+    <!-- end header -->
+    <!-- start form -->
+    <form
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+      class="login100-form validate-form"
+    >
+      <!-- start inputs -->
+      <div class="login100-inputs">
+        <input
+          class="login100-input"
+          type="text"
+          placeholder="Correo electrónico"
+          formControlName="username"
+        />
+
+        <input
+          class="login100-input"
+          type="password"
+          placeholder="Contraseña"
+          formControlName="password"
+        />
+      </div>
+      <!-- end inputs -->
+      <!-- start button -->
+      <div class="login100-btns">
+        <button type="submit" class="btn btn-primary" mat-raised-button>
+          <span
+            *ngIf="loading"
+            class="spinner-border spinner-border-sm mr-1"
+          ></span>
+          Iniciar sesión
+        </button>
+      </div>
+      <!-- end button -->
+      <!-- start title-2 -->
+      <div class="title-2">
+        <span class="login100-form-title-2"
+          >¿Aún no tienes cuenta?
+          <button class="btn btn-secondary btn-sm" routerLink="/register">
+            Registrate
+          </button>
+        </span>
+      </div>
+      <!-- end title 2 -->
+    </form>
+    <!-- end form -->
+  </div>
+</div>
+<!-- end div -->

@@ -1,0 +1,9 @@
+{
+    "/rest": {
+   "target": "https://netvozapi.azurewebsites.net/api/v1/token",
+   "pathRewrite": {
+     "^/rest": ""
+   },
+   "secure": false
+   }
+   }

@@ -1,0 +1,25 @@
+.Button{
+float:left; 
+position:absolute; 
+z-index:-1;
+}
+
+.imput{
+opacity: 0; //Not visible
+font-size: 0;
+//Button dimensions
+width: 90px; 
+height: 37px; 
+float: left; 
+}
+
+.input-hover{
+    cursor: pointer;
+}
+
+label{
+    float: left; 
+margin-left: 6px; 
+margin-top: 7px;
+}
+

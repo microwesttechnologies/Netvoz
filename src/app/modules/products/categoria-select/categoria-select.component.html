@@ -1,0 +1,8 @@
+<mat-form-field class="imput-full-width">
+    <mat-label>Categoría</mat-label>
+    <mat-select name="CAT_Id" [formControl]="selectCategoria" (selectionChange)="catSelect.emit($event.value)">
+        <mat-option *ngFor="let categoria of categorias" [value]="categoria.CAT_Id">
+            {{categoria.CAT_Nombre}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>  
