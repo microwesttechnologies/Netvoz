@@ -22,7 +22,7 @@ import { Router } from "@angular/router";
 import { Product } from "../../Data/models/product";
 import { environment } from "../../../environments/environment";
 import { ResponsiveI } from "../../Data/models/responsive";
-import { BlobServiceClient,ContainerClient} from '@azure/storage-blob';
+import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
 
 @Injectable({
   providedIn: "root",
@@ -42,7 +42,7 @@ export class ProductService {
   private account = 'netvoz';
 
   // public product: Observable<Product>;
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) { }
 
   //Fetch all articles
   getAllProducts$(route: string): Observable<Product[]> {
@@ -139,20 +139,20 @@ export class ProductService {
       );
   }
 
-  public async listImages():Promise<string[]>{
-    const result:string[]= [];
+  public async listImages(): Promise<string[]> {
+    const result: string[] = [];
 
     const blobs = this.containerClient().listBlobsFlat();
-    for await (const blob of blobs){
+    for await (const blob of blobs) {
       result.push(blob.name);
     }
     return result;
   }
 
-  private containerClient = (sas?:string,container?:string):ContainerClient => {
+  private containerClient = (sas?: string, container?: string): ContainerClient => {
 
     let token = "";
-    if(sas){
+    if (sas) {
       token = sas;
     }
 
@@ -161,9 +161,9 @@ export class ProductService {
     ).getContainerClient(container)
   };
 
-  public uploadfile = (sas:string,file:Blob,name:string,container:string, handler:()=>void)=> {
-    const blockBlobCliente = this.containerClient(sas,container).getBlockBlobClient(name);
-    blockBlobCliente.uploadData(file,{blobHTTPHeaders:{blobContentType:file.type}}).then(()=>handler())
+  public uploadfile = (sas: string, file: Blob, name: string, container: string, handler: () => void) => {
+    const blockBlobCliente = this.containerClient(sas, container).getBlockBlobClient(name);
+    blockBlobCliente.uploadData(file, { blobHTTPHeaders: { blobContentType: file.type } }).then(() => handler())
   }
 
   UploadJson(data: JSON, route: string) {

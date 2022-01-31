@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
 
-  ngOnInit(): void { AOS.init();}
+  ngOnInit(): void { AOS.init(); }
 
   openAlert() {
     swal({

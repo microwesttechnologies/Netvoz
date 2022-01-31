@@ -80,7 +80,7 @@ export class AuthService {
   }
 
   saveInfoUser = (user) => window.localStorage.setItem('userinfo', JSON.stringify(user));
-  getInfoUser = (user) => {this.infoUser = user};
+  getInfoUser = (user) => { this.infoUser = user };
 
 
   postUser = (form: NewUser): Observable<ResponsiveI> =>
@@ -90,13 +90,13 @@ export class AuthService {
       { headers: this.headers }
     );
 
-  sendEmail = (params:any):Observable<any> => this.http.post(`${environment.apiUrl}/USU_Usuarios/EnviarCodigoVerificacionCorreo`, params,{ headers: this.headers });
+  sendEmail = (params: any): Observable<any> => this.http.post(`${environment.apiUrl}/USU_Usuarios/EnviarCodigoVerificacionCorreo`, params, { headers: this.headers });
 
-  postBussines = (form: NewBussine): Observable<ResponsiveI> =>this.http.post<ResponsiveI>(`${environment.apiUrl}/EMP_Empresas`,form,{ headers: this.headers });
+  postBussines = (form: NewBussine): Observable<ResponsiveI> => this.http.post<ResponsiveI>(`${environment.apiUrl}/EMP_Empresas`, form, { headers: this.headers });
 
-  sendEmailRegister =(params:any):Observable<any> => this.http.post(`${environment.apiUrl}/USU_Usuarios/EnviarRegistroEmpresaCorreo`, params,{ headers: this.headers });
+  sendEmailRegister = (params: any): Observable<any> => this.http.post(`${environment.apiUrl}/USU_Usuarios/EnviarRegistroEmpresaCorreo`, params, { headers: this.headers });
 
-  validateEmail = (params:any):Observable<any> => this.http.post(`${environment.apiUrl}/USU_Usuarios/ValidarCorreo/token`, params, {headers: this.headers});
+  validateEmail = (params: any): Observable<any> => this.http.post(`${environment.apiUrl}/USU_Usuarios/ValidarCorreo/token`, params, { headers: this.headers });
 
   logout() {
     // remove user from local storage and set current user to null

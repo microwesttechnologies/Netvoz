@@ -8,7 +8,7 @@ import Swal from "sweetalert2/dist/sweetalert2.js";
 export class AlertService {
   private subject = new Subject<any>();
 
-  constructor() {}
+  constructor() { }
 
   opensweetalert(type: string, title: string, text: string) {
     Swal.fire({

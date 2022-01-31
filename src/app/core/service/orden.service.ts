@@ -1,8 +1,8 @@
 import { Injectable, PipeTransform } from '@angular/core';
-import { HttpClient, HttpParams,  HttpHeaders,HttpEvent, HttpEventType, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders, HttpEvent, HttpEventType, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { of, Observable, throwError, BehaviorSubject, Subject } from 'rxjs';
-import {debounceTime, delay, switchMap, tap, map, catchError} from 'rxjs/operators';
-import {DecimalPipe} from '@angular/common';
+import { debounceTime, delay, switchMap, tap, map, catchError } from 'rxjs/operators';
+import { DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { Orden } from '../../Data/models/orden';
 import { environment } from '../../../environments/environment';
@@ -15,56 +15,56 @@ export class OrdenService {
 
   private listMenu = [
     {
-      text:'Pedidos Actuales',
+      text: 'Pedidos Actuales',
       img: '../../../assets/images/iconV2/Actuales.png',
-      url:'/home/dashboard/detailOrder'
-    },{
-      text:'Pedidos Aceptados',
+      url: '/home/dashboard/detailOrder'
+    }, {
+      text: 'Pedidos Aceptados',
       img: '../../../assets/images/iconV2/Aceptados.png',
-      url:'/home/dashboard/detailOrder'
-    },{
-      text:'Pedidos Rechazados',
+      url: '/home/dashboard/detailOrder'
+    }, {
+      text: 'Pedidos Rechazados',
       img: '../../../assets/images/iconV2/Rechazados.png',
-      url:'/home/dashboard/detailOrder'
-    },{
-      text:'Pedidos enviados',
+      url: '/home/dashboard/detailOrder'
+    }, {
+      text: 'Pedidos enviados',
       img: '../../../assets/images/iconV2/Enviados.png',
-      url:'/home/dashboard/detailOrder'
-    },{
-      text:'Pedidos entregados',
+      url: '/home/dashboard/detailOrder'
+    }, {
+      text: 'Pedidos entregados',
       img: '../../../assets/images/iconV2/Entregado.png',
-      url:'/home/dashboard/detailOrder'
+      url: '/home/dashboard/detailOrder'
     },
   ];
 
   public listMenuFilter = [];
 
   constructor(private router: Router, private http: HttpClient) {
-   this.listMenuFilter = this.listMenu;
+    this.listMenuFilter = this.listMenu;
   }
 
-  getOrdenesFecha$(route:string, fecha:string, estado:string) : Observable<Orden[]> {
+  getOrdenesFecha$(route: string, fecha: string, estado: string): Observable<Orden[]> {
 
     /*   const params = new HttpParams()
       .set('fechaOrden', this.date)
       .set('idEstadoOrden', estado); */
-      //let par = `?fechaOrden=${this.date}&idEstadoOrden=${estado}`
-      console.log(this.createCompleteRoute(route, environment.apiUrl) + `?fechaOrden=${fecha}&idEstadoOrden=${estado}`);
+    //let par = `?fechaOrden=${this.date}&idEstadoOrden=${estado}`
+    console.log(this.createCompleteRoute(route, environment.apiUrl) + `?fechaOrden=${fecha}&idEstadoOrden=${estado}`);
 
-      return this.http.get<Orden[]>(this.createCompleteRoute(route, environment.apiUrl) + `?fechaOrden=${fecha}&idEstadoOrden=${estado}`)
+    return this.http.get<Orden[]>(this.createCompleteRoute(route, environment.apiUrl) + `?fechaOrden=${fecha}&idEstadoOrden=${estado}`)
       .pipe(
         tap(articles => console.log("Number of articles: " + articles.length)),
         catchError(this.handleError)
-        );
-    }
+      );
+  }
 
-    private createCompleteRoute = (route: string, envAddress: string) => {
+  private createCompleteRoute = (route: string, envAddress: string) => {
 
-      return `${envAddress}${route}`;
-    }
+    return `${envAddress}${route}`;
+  }
 
-    private handleError(error: any) {
-           return throwError(error);
+  private handleError(error: any) {
+    return throwError(error);
   }
 
   errorMgmt(error: HttpErrorResponse) {
@@ -80,10 +80,10 @@ export class OrdenService {
     return throwError(errorMessage);
   }
 
-  public searchMenuItem = (item:string) => {
-    if(item.length > 0 && item !== ""){
-      this.listMenuFilter = this.listMenu.filter(elm=>elm.text.toLowerCase().indexOf(item.toLowerCase())>= 0);
-    }else{
+  public searchMenuItem = (item: string) => {
+    if (item.length > 0 && item !== "") {
+      this.listMenuFilter = this.listMenu.filter(elm => elm.text.toLowerCase().indexOf(item.toLowerCase()) >= 0);
+    } else {
       this.listMenuFilter = this.listMenu;
     }
   }
