@@ -135,8 +135,13 @@
         <div class="col-sm-12 col-md-4">
           <mat-form-field class="imput-full-width">
             <mat-label>Departamento</mat-label>
-            <mat-select>
-              <mat-option>Ninguna</mat-option>
+            <mat-select formControlName="DEP_Id">
+              <mat-option value="0">Ninguna</mat-option>
+              <ng-container *ngFor="let departamento of departamentos">
+                <mat-option [value]="departamento.DEP_Id">{{
+                  departamento.DEP_Nombre
+                }}</mat-option>
+              </ng-container>
             </mat-select>
           </mat-form-field>
         </div>
@@ -144,8 +149,13 @@
         <div class="col-sm-12 col-md-4">
           <mat-form-field class="imput-full-width">
             <mat-label>Ciudad</mat-label>
-            <mat-select>
-              <mat-option>Ninguna</mat-option>
+            <mat-select formControlName="CIU_Id">
+              <mat-option value="0">Ninguna</mat-option>
+              <ng-container *ngFor="let ciudad of ciudadesFilter">
+                <mat-option [value]="ciudad.CIU_Id">{{
+                  ciudad.CIU_Nombre
+                }}</mat-option>
+              </ng-container>
             </mat-select>
           </mat-form-field>
         </div>

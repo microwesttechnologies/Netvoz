@@ -36,15 +36,19 @@ export class BussinesComponent implements OnInit {
 
   @ViewChild('fileUploader', { static: false })
   fileUploader: ElementRef<HTMLElement>;
-  public image: string = '';
+  public image = '';
 
   bussinesForm: FormGroup;
-  disabledSubmitButton: boolean = true;
+  disabledSubmitButton = true;
   optionsSelect: Array<any>;
   asuntoControl = new FormControl('01');
 
-  color: string = '#ffffff';
+  color = '#ffffff';
   file;
+
+  public ciudadesFilter = [];
+  public departamentos = [];
+  public ciudades = [];
 
   @HostListener('input') oninput() {
     if (this.bussinesForm.valid) {
@@ -64,7 +68,6 @@ export class BussinesComponent implements OnInit {
     private api: AuthService) { }
 
   ngOnInit(): void {
-
     AOS.init();
 
     const idCEM = this.authService.casifBussines?.CEM_Id[0].Codigo;
@@ -77,6 +80,7 @@ export class BussinesComponent implements OnInit {
         EMP_Direccion: ['', [Validators.required]],
         CEM_Id: [idCEM, [Validators.required]],
         CIU_Id: [idCIU, [Validators.required]],
+        DEP_Id: [idCIU, [Validators.required]],
         EMP_Imagen: ['', [Validators.required]],
         EMP_Estado: [true, [Validators.required]],
         EMP_FechaUltimaActualizacion: ['2021-07-04T22:19:36.4041122-05:00'],
@@ -90,9 +94,21 @@ export class BussinesComponent implements OnInit {
         EMP_Instagram: [''],
         EMP_Facebook: [''],
         EMP_Whatsapp: [''],
-        DPR_Color: ['', [Validators.required]]
+        DPR_Color: [''],
+        PRO_ImgProducto: ['', [Validators.required]]
       });
+
+    this.getDepartamentos();
+    this.getCiudades();
+
+    this.bussinesForm.get('DEP_Id').valueChanges.subscribe(id => this.getCiudadesByDepartamento(id));
   }
+
+  getDepartamentos = () => this.categoriaService.getDepartamentos().subscribe(response => this.departamentos = response);
+
+  getCiudades = () => this.categoriaService.getCiudades().subscribe(response => this.ciudades = response);
+
+  getCiudadesByDepartamento = (id) => this.ciudadesFilter = this.ciudades.filter(ciudad => +ciudad.DEP_Id === +id);
 
   // funcion crear color en el input color nuevo
   add(event: MatChipInputEvent): void {
