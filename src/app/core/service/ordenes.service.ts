@@ -21,15 +21,9 @@ export class OrdenService {
 
   getOrdenesFecha$(route: string, estado: string): Observable<Orden[]> {
 
-    /*   const params = new HttpParams()
-      .set('fechaOrden', this.date)
-      .set('idEstadoOrden', estado); */
-    //let par = `?fechaOrden=${this.date}&idEstadoOrden=${estado}`
-    console.log(this.createCompleteRoute(route, environment.apiUrl) + `?fechaOrden=${this.date}&idEstadoOrden=${estado}`);
-
     return this.http.get<Orden[]>(this.createCompleteRoute(route, environment.apiUrl) + `?fechaOrden=${this.date}&idEstadoOrden=${estado}`)
       .pipe(
-        tap(articles => console.log("Number of articles: " + articles.length)),
+        tap(articles => console.log('Number of articles: ' + articles.length)),
         catchError(this.handleError)
       );
   }
@@ -53,7 +47,6 @@ export class OrdenService {
       // Get server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    console.log(errorMessage);
     return throwError(errorMessage);
   }
 

@@ -25,29 +25,29 @@ mat-card-content {
   transform: translateX(-50%) translateY(-50%);
 }
 
-.overlay{
-height:100vh;
-width:100%;
-background-color:rgba(0, 0, 0, 0.286);
-z-index:    10;
-top:        0;
-left:       0;
-position:   fixed;
+.overlay {
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.286);
+  z-index: 10;
+  top: 0;
+  left: 0;
+  position: fixed;
 }
-
 
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
 
 * {
-	margin: 0px;
-	padding: 0px;
-	box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-body, html {
-	height: 100%;
-	font-family: Poppins-Regular, sans-serif;
+body,
+html {
+  height: 100%;
+  font-family: Poppins-Regular, sans-serif;
 }
 
 /*---------------------------------------------*/
@@ -103,7 +103,7 @@ body, html {
   color: #fff;
 }
 
-.title-2{
+.title-2 {
   margin-top: 25px;
   text-align: center;
   width: 480px;
@@ -128,9 +128,9 @@ body, html {
 
 .login100-form-logo {
   width: 200px;
-  display:block;
-  margin:auto;
-  text-align:center;
+  display: block;
+  margin: auto;
+  text-align: center;
 }
 
 /*==================================================================
@@ -140,21 +140,18 @@ body, html {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-
 }
 
 /*------------------------------------------------------------------
 [ Input ]*/
 
-.login100-inputs  {
+.login100-inputs {
   width: 550px;
   margin-top: 10px;
   margin-bottom: 10px;
-
-
 }
 
-.login100-input  {
+.login100-input {
   background-color: #ffffff8c;
   width: 400px;
   height: 40px;
@@ -172,16 +169,16 @@ body, html {
 
 .form-check {
   position: static;
-  color:rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   font-size: 15px;
   text-align: center;
   margin-top: none;
-  margin-bottom:30px;
+  margin-bottom: 30px;
   width: 550px;
 }
 
 .form-check-label {
-  color:rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   font-size: 15px;
   text-align: left;
   margin-left: 20px;
@@ -189,7 +186,6 @@ body, html {
 
 .form-check-input {
   margin-top: 3px;
-
 }
 
 /*------------------------------------------------------------------
@@ -221,7 +217,6 @@ body, html {
 /*----------------------------------------------------------------*/
 // FORM REGISTER-COMPANY---------------------------------------------
 
-
 .confirm {
   width: 100%;
   margin: 0 auto;
@@ -235,24 +230,24 @@ body, html {
 .card {
   border-radius: 30px;
   background-color: rgba(5, 0, 3, 0.5);
-  padding: 30px
+  padding: 30px;
 }
 
-.card button{
+.card button {
   border-radius: 30px;
   background-color: rgba(5, 0, 3, 0.5);
 }
 
-.card h1{
+.card h1 {
   font-size: 40px;
   margin-bottom: 25px;
 }
-.card p{
-  color:rgb(255, 255, 255);
+.card p {
+  color: rgb(255, 255, 255);
   font-size: 20px;
 }
 
-.card input{
+.card input {
   border-radius: 10px;
   font-size: 30px;
   margin-bottom: 20px;

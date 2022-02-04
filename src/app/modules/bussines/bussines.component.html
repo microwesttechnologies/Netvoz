@@ -4,13 +4,18 @@
     <form [formGroup]="bussinesForm">
       <div class="container-image">
         <div class="image">
-          <img [src]="image" class="image-res" *ngIf="imageRes" />
+          <img
+            *ngIf="bussinesForm.get('EMP_Imagen').value"
+            class="image-res"
+            [src]="image"
+          />
         </div>
         <button
-          color="primary"
+          (click)="cargarImagen()"
           class="btn-primary"
           mat-raised-button
-          (click)="cargarImagen()"
+          color="primary"
+          type="button"
         >
           Cargar imagen
         </button>
@@ -52,8 +57,12 @@
         <div class="col-sm-12 col-md-6">
           <mat-form-field class="imput-full-width">
             <mat-label>Clasificacion</mat-label>
-            <mat-select>
-              <mat-option>Ninguna</mat-option>
+            <mat-select formControlName="CEM_Id">
+              <ng-container *ngFor="let clasificacion of clasificaciones">
+                <mat-option [value]="clasificacion.CEM_Id">{{
+                  clasificacion.CEM_Nombre
+                }}</mat-option>
+              </ng-container>
             </mat-select>
           </mat-form-field>
         </div>
@@ -87,7 +96,6 @@
           <mat-form-field class="imput-full-width">
             <mat-label>Tipo de cuenta</mat-label>
             <mat-select formControlName="EMP_TipoCuenta">
-              <mat-option>Ninguna</mat-option>
               <mat-option value="Cuenta Corriente">Cuenta Corriente</mat-option>
               <mat-option value="Cuenta de ahorros"
                 >Cuenta de ahorros</mat-option
@@ -136,7 +144,6 @@
           <mat-form-field class="imput-full-width">
             <mat-label>Departamento</mat-label>
             <mat-select formControlName="DEP_Id">
-              <mat-option value="0">Ninguna</mat-option>
               <ng-container *ngFor="let departamento of departamentos">
                 <mat-option [value]="departamento.DEP_Id">{{
                   departamento.DEP_Nombre
@@ -150,7 +157,6 @@
           <mat-form-field class="imput-full-width">
             <mat-label>Ciudad</mat-label>
             <mat-select formControlName="CIU_Id">
-              <mat-option value="0">Ninguna</mat-option>
               <ng-container *ngFor="let ciudad of ciudadesFilter">
                 <mat-option [value]="ciudad.CIU_Id">{{
                   ciudad.CIU_Nombre
@@ -195,7 +201,15 @@
         <!-- color -->
         <div class="col-sm-12 col-md-4">
           <mat-form-field class="example-full-widt">
-            <mat-chip-list
+            <input
+              placeholder="Colores del producto*"
+              formControlName="EMP_Color"
+              type="color"
+              required
+              matInput
+            />
+
+            <!-- <mat-chip-list
               #chipList
               aria-label="color selection"
               formControlName="EMP_Color"
@@ -208,22 +222,9 @@
               >
                 {{ color.name }}
                 <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-              </mat-chip>
-              <input
-                matInput
-                formControlName="DPR_Color"
-                type="color"
-                style="color: azure"
-                placeholder="Colores del producto*"
-                [matChipInputFor]="chipList"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                [matChipInputAddOnBlur]="addOnBlur"
-                (matChipInputTokenEnd)="add($event)"
-                [value]="color"
-                [style.background]="color"
-                required
-              />
-            </mat-chip-list>
+              </mat-chip> -->
+
+            <!-- </mat-chip-list> -->
           </mat-form-field>
         </div>
         <!--Row 5-->

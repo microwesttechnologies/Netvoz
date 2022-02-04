@@ -43,9 +43,9 @@ export class BussinesComponent implements OnInit {
   optionsSelect: Array<any>;
   asuntoControl = new FormControl('01');
 
-  color = '#ffffff';
   file;
 
+  public clasificaciones = [];
   public ciudadesFilter = [];
   public departamentos = [];
   public ciudades = [];
@@ -70,21 +70,18 @@ export class BussinesComponent implements OnInit {
   ngOnInit(): void {
     AOS.init();
 
-    const idCEM = this.authService.casifBussines?.CEM_Id[0].Codigo;
-    const idCIU = this.authService.cityBussines?.CIU_Id[0].Codigo;
-
     this.bussinesForm = this.formBuilder.group
       ({
         EMP_Nit: ['', [Validators.required]],
         EMP_Nombre: ['', [Validators.required]],
         EMP_Direccion: ['', [Validators.required]],
-        CEM_Id: [idCEM, [Validators.required]],
-        CIU_Id: [idCIU, [Validators.required]],
-        DEP_Id: [idCIU, [Validators.required]],
+        CEM_Id: ['', [Validators.required]],
+        CIU_Id: ['', [Validators.required]],
+        DEP_Id: ['', [Validators.required]],
         EMP_Imagen: ['', [Validators.required]],
-        EMP_Estado: [true, [Validators.required]],
+        EMP_Estado: [true],
         EMP_FechaUltimaActualizacion: ['2021-07-04T22:19:36.4041122-05:00'],
-        EMP_PorcentajeComision: [0, [Validators.required]],
+        EMP_PorcentajeComision: [0],
         EMP_Banco: ['', [Validators.required]],
         EMP_TipoCuenta: ['', [Validators.required]],
         EMP_NumeroCuenta: ['', [Validators.required]],
@@ -94,15 +91,22 @@ export class BussinesComponent implements OnInit {
         EMP_Instagram: [''],
         EMP_Facebook: [''],
         EMP_Whatsapp: [''],
-        DPR_Color: [''],
-        PRO_ImgProducto: ['', [Validators.required]]
       });
 
+    this.getClasificacionEmp();
     this.getDepartamentos();
     this.getCiudades();
 
-    this.bussinesForm.get('DEP_Id').valueChanges.subscribe(id => this.getCiudadesByDepartamento(id));
+    this.bussinesForm.get('DEP_Id').valueChanges.subscribe(id => {
+      this.getCiudadesByDepartamento(id);
+      if (!this.bussinesForm.get('DEP_Id').value) {
+        this.bussinesForm.get('DEP_Id').setValue(id);
+      }
+      this.bussinesForm.get('CIU_Id').setValue('');
+    });
   }
+
+  getClasificacionEmp = () => this.categoriaService.getClasificacionEmp().subscribe(response => this.clasificaciones = response);
 
   getDepartamentos = () => this.categoriaService.getDepartamentos().subscribe(response => this.departamentos = response);
 
@@ -110,35 +114,9 @@ export class BussinesComponent implements OnInit {
 
   getCiudadesByDepartamento = (id) => this.ciudadesFilter = this.ciudades.filter(ciudad => +ciudad.DEP_Id === +id);
 
-  // funcion crear color en el input color nuevo
-  add(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    // Agragar o escribir en el input
-    if ((value || '').trim()) {
-      this.colors.push({ name: value.trim() });
-    }
-
-    // Reseteo valor input
-    if (input) {
-      input.value = '';
-    }
-  }
-
-  // funcion eliminar color en el input color nuevo
-  remove(color: Color): void {
-    const index = this.colors.indexOf(color);
-
-    if (index >= 0) {
-      this.colors.splice(index, 1);
-    }
-  }
-
   cargarImagen() {
     const fileElement: HTMLElement = this.fileUploader.nativeElement;
     fileElement.click();
-    this.imageRes = true;
   }
 
   selectFile(event: Event) {
@@ -149,23 +127,26 @@ export class BussinesComponent implements OnInit {
         this.image = reader.result as string;
       };
       reader.readAsDataURL(this.file);
-      this.bussinesForm.get('PRO_ImgProducto').setValue(this.file?.name);
+      this.bussinesForm.get('EMP_Imagen').setValue(this.file?.name);
+    } else {
+      this.bussinesForm.get('EMP_Imagen').setValue('');
     }
   }
 
   save() {
+
     if (this.bussinesForm.valid) {
       this.ngxService.start();
       this.apiImage.uploadfile(
-        environment.sasP,
+        environment.sasE,
         this.file,
-        this.file.name,
-        'productos',
+        `Empresa_${this.replaceAll(this.bussinesForm.get('EMP_Nombre').value, ' ', '_')}`,
+        'empresas',
         () => {
+          this.bussinesForm.get('EMP_Imagen').setValue(`Empresa_${this.replaceAll(this.bussinesForm.get('EMP_Nombre').value, ' ', '_')}`);
           this.api.postBussines(this.bussinesForm.value).subscribe((data) => {
             this.ngxService.stop();
-            this.dialogRef.close(true);
-            this.snackBar.open('Producto agregado exitosamente', undefined, {
+            this.snackBar.open('Empresa agregada exitosamente', undefined, {
               panelClass: ['bg-success'],
               duration: 2000,
             });
@@ -174,5 +155,9 @@ export class BussinesComponent implements OnInit {
       );
     }
   }
+
+  escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+
+  replaceAll = (str: string, find: any, replace: any) => str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
 
 }

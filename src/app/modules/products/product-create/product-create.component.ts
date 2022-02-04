@@ -36,14 +36,12 @@ export class ProductCreateComponent implements OnInit {
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   colors: Color[] = [];
-  
-  @ViewChild("fileUploader", { static: false })
+
+  @ViewChild('fileUploader', { static: false })
   fileUploader: ElementRef<HTMLElement>;
-  public image: string = "";
+  public image = '';
 
-  color: string = "#ffffff";
-
-  title = "Crear producto";
+  title = 'Crear producto';
   form: FormGroup;
   id: number;
   producto: Product;
@@ -51,6 +49,8 @@ export class ProductCreateComponent implements OnInit {
   umedidas: Umedida;
   action: string;
   file;
+
+  public imageProductos = [];
 
   constructor(
     private dialogRef: MatDialogRef<ProductCreateComponent>,
@@ -68,23 +68,23 @@ export class ProductCreateComponent implements OnInit {
   }
 
 
-// funcion crear color en el input color nuevo
+  // funcion crear color en el input color nuevo
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
     // Agragar o escribir en el input
     if ((value || '').trim()) {
-      this.colors.push({name: value.trim() });
+      this.colors.push({ name: value.trim() });
     }
 
-    //Reseteo valor input
+    // Reseteo valor input
     if (input) {
       input.value = '';
     }
   }
 
-  //funcion eliminar color en el input color nuevo
+  // funcion eliminar color en el input color nuevo
   remove(color: Color): void {
     const index = this.colors.indexOf(color);
 
@@ -97,31 +97,26 @@ export class ProductCreateComponent implements OnInit {
     const idEmpresa = this.authService.infoUser.USU_EmpresasUsuarios[0].Codigo;
 
     this.form = this.formBuilder.group({
-      PRO_Codigo: ["", [Validators.required]],
-      PRO_Nombre: ["", [Validators.required]],
-      PRO_Descripcion: ["", [Validators.required]],
-      PRO_PrecioUnidad: ["", [Validators.required]],
+      PRO_Codigo: ['', [Validators.required]],
+      PRO_Nombre: ['', [Validators.required]],
+      PRO_Descripcion: ['', [Validators.required]],
+      PRO_PrecioUnidad: ['', [Validators.required]],
       EMP_Id: [idEmpresa, [Validators.required]],
-      PRO_FechaUltimaActualizacion: "2021-07-04T22:19:36.4041122-05:00",
+      PRO_FechaUltimaActualizacion: ['2021-07-04T22:19:36.4041122-05:00'],
       PRO_Estado: true,
-      CAT_Id: ["", [Validators.required]],
+      CAT_Id: ['', [Validators.required]],
       PRO_EsProducto: true,
-      PRO_ImgProducto: ["", [Validators.required]],
-      PRO_Marca: ["", [Validators.required]],
-      UME_Id: ["", [Validators.required]],
-      PRO_Tamano: ["", [Validators.required]],
+      PRO_ImgProducto: ['', [Validators.required]],
+      PRO_Marca: ['', [Validators.required]],
+      UME_Id: ['', [Validators.required]],
+      PRO_Tamano: ['', [Validators.required]],
       PRO_Eliminado: true,
-      PRO_DescripcionDetallada: ["", [Validators.required]],      
-      getDetalleProducto: [[]],
-      DPR_DetalleProducto: this.formBuilder.group({
-        DPR_Color: ["", [Validators.required]],
-        DPR_Estado: ["1", [Validators.required]],
-      }),
+      PRO_DescripcionDetallada: ['', [Validators.required]],
+      IPR_ImagenesProducto: [[]],
+      DPR_DetalleProducto: this.formBuilder.group({}),
     });
-    // console.log(this.form);
   }
 
-  
   close() {
     this.dialogRef.close(null);
   }
@@ -129,17 +124,18 @@ export class ProductCreateComponent implements OnInit {
   save() {
     if (this.form.valid) {
       this.ngxService.start();
+
       this.api.uploadfile(
         environment.sasP,
         this.file,
         this.file.name,
-        "productos",
+        'productos',
         () => {
           this.api.createProduct(this.form.value).subscribe((data) => {
             this.ngxService.stop();
             this.dialogRef.close(true);
-            this.snackBar.open("Producto agregado exitosamente", undefined, {
-              panelClass: ["bg-success"],
+            this.snackBar.open('Producto agregado exitosamente', undefined, {
+              panelClass: ['bg-success'],
               duration: 2000,
             });
           });
@@ -150,13 +146,13 @@ export class ProductCreateComponent implements OnInit {
 
   onSelectCategoria(CAT_Id: number) {
     this.form.patchValue({
-      CAT_Id: CAT_Id,
+      CAT_Id,
     });
   }
 
   onSelectUmedida(UME_Id: number) {
     this.form.patchValue({
-      UME_Id: UME_Id,
+      UME_Id,
     });
   }
 
@@ -173,7 +169,7 @@ export class ProductCreateComponent implements OnInit {
         this.image = reader.result as string;
       };
       reader.readAsDataURL(this.file);
-      this.form.get("PRO_ImgProducto").setValue(this.file?.name);
+      this.form.get('PRO_ImgProducto').setValue(this.file?.name);
     }
   }
 }
