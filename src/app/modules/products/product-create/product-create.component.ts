@@ -51,6 +51,7 @@ export class ProductCreateComponent implements OnInit {
   file;
 
   public imageProductos = [];
+  public colorProductos = [];
 
   constructor(
     private dialogRef: MatDialogRef<ProductCreateComponent>,
@@ -66,7 +67,36 @@ export class ProductCreateComponent implements OnInit {
     this.categorias = data.categorias;
     this.umedidas = data.umedidas;
   }
+  
+  ngOnInit() {
+    const idEmpresa = this.authService.infoUser.USU_EmpresasUsuarios[0].Codigo;
+    
+    this.form = this.formBuilder.group({
+      PRO_Codigo: ['', [Validators.required]],
+      PRO_Nombre: ['', [Validators.required]],
+      PRO_Descripcion: ['', [Validators.required]],
+      PRO_PrecioUnidad: ['', [Validators.required]],
+      EMP_Id: [idEmpresa, [Validators.required]],
+      PRO_FechaUltimaActualizacion: ['2021-07-04T22:19:36.4041122-05:00'],
+      PRO_Estado: true,
+      CAT_Id: ['', [Validators.required]],
+      PRO_EsProducto: true,
+      PRO_ImgProducto: ['', [Validators.required]],
+      PRO_Marca: ['', [Validators.required]],
+      UME_Id: ['', [Validators.required]],
+      PRO_Tamano: ['', [Validators.required]],
+      PRO_Eliminado: true,
+      PRO_DescripcionDetallada: [''],
+      IPR_ImagenesProducto: [[]],
+      DPR_DetalleProducto: this.formBuilder.group({}),
+    });
+  }
 
+  addColor = (value) => 
+    this.colorProductos.push({
+      DPR_Color:value,
+      DPR_Estado:true
+    })
 
   // funcion crear color en el input color nuevo
   add(event: MatChipInputEvent): void {
@@ -92,31 +122,7 @@ export class ProductCreateComponent implements OnInit {
       this.colors.splice(index, 1);
     }
   }
-
-  ngOnInit() {
-    const idEmpresa = this.authService.infoUser.USU_EmpresasUsuarios[0].Codigo;
-
-    this.form = this.formBuilder.group({
-      PRO_Codigo: ['', [Validators.required]],
-      PRO_Nombre: ['', [Validators.required]],
-      PRO_Descripcion: ['', [Validators.required]],
-      PRO_PrecioUnidad: ['', [Validators.required]],
-      EMP_Id: [idEmpresa, [Validators.required]],
-      PRO_FechaUltimaActualizacion: ['2021-07-04T22:19:36.4041122-05:00'],
-      PRO_Estado: true,
-      CAT_Id: ['', [Validators.required]],
-      PRO_EsProducto: true,
-      PRO_ImgProducto: ['', [Validators.required]],
-      PRO_Marca: ['', [Validators.required]],
-      UME_Id: ['', [Validators.required]],
-      PRO_Tamano: ['', [Validators.required]],
-      PRO_Eliminado: true,
-      PRO_DescripcionDetallada: ['', [Validators.required]],
-      IPR_ImagenesProducto: [[]],
-      DPR_DetalleProducto: this.formBuilder.group({}),
-    });
-  }
-
+  
   close() {
     this.dialogRef.close(null);
   }
@@ -165,11 +171,21 @@ export class ProductCreateComponent implements OnInit {
     this.file = (event.target as HTMLInputElement).files[0];
     if (this.file) {
       const reader = new FileReader();
-      reader.onload = () => {
-        this.image = reader.result as string;
-      };
+
+      this.imageProductos.push({
+        IPR_EsImagenPrincipal:this.imageProductos.length === 0 ? true : false,
+        PRO_ProductosPRO_Nombre:'',
+        IPR_RutaImagen:'',
+        IPR_Estado:true,
+        file:this.file,
+        imagenUrl:'',
+      });
+
+      reader.onload = () => this.imageProductos[this.imageProductos.length -1].imagenUrl = reader.result as string;
+
       reader.readAsDataURL(this.file);
-      this.form.get('PRO_ImgProducto').setValue(this.file?.name);
     }
   }
+
+  removeProduct = (index:number) => this.imageProductos.splice(index,1);
 }
