@@ -83,7 +83,7 @@
             <div class="d-flex mt-3 container-images">
                 <ng-container *ngFor="let image of imageProductos; index as i">
                     <div class="container-img">
-                        <i class="fas fa-times" (click)="removeProduct(i)"></i>
+                        <i class="fas fa-times" (click)="removeImageProduct(i)"></i>
                         <img [src]="image.imagenUrl" />
                     </div>
                 </ng-container>

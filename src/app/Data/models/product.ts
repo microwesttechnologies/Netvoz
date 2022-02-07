@@ -18,4 +18,6 @@ export class Product {
     PRO_Eliminado: boolean;
     PRO_DescripcionDetallada: string;
     DPR_Color: string;
+    IPR_ImagenesProducto:[];
+    DPR_DetalleProducto:[];
 }

@@ -1,7 +1,6 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild, HostListener } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { MatSnackBar } from '@angular/material/snack-bar';

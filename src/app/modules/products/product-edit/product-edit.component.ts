@@ -1,35 +1,50 @@
-import { Component,Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { FormsModule, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {MatSelectModule} from '@angular/material/select';
-import {DecimalPipe} from '@angular/common';
-import { Router, ActivatedRoute, RouterModule } from '@angular/router';
-import { ProductService } from '../../../core/service/product.service';
-import { Product } from '../../../Data/models/product';
-import { Categoria } from '../../../Data/models/categoria';
-import { Umedida } from '../../../Data/models/um';
-import { environment } from '../../../../environments/environment';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  Component,
+  Inject,
+  OnInit,
+  ViewChild,
+  ElementRef,
+} from "@angular/core";
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray,
+} from "@angular/forms";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { ActivatedRoute } from "@angular/router";
+import { ProductService } from "../../../core/service/product.service";
+import { Product } from "../../../Data/models/product";
+import { Categoria } from "../../../Data/models/categoria";
+import { Umedida } from "../../../Data/models/um";
+import { environment } from "../../../../environments/environment";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { NgxUiLoaderService } from "ngx-ui-loader";
+import { AuthService } from "src/app/core/service/auth.service";
 
 @Component({
-  selector: 'app-product-edit',
-  templateUrl: './product-edit.component.html',
-  styleUrls: ['./product-edit.component.scss']
+  selector: "app-product-edit",
+  templateUrl: "./product-edit.component.html",
+  styleUrls: ["./product-edit.component.scss"],
 })
 export class ProductEditComponent implements OnInit {
+  @ViewChild("fileUploader", { static: false })
+  fileUploader: ElementRef<HTMLElement>;
+  public image: string = "";
 
-  @ViewChild('fileUploader',{static: false}) fileUploader: ElementRef<HTMLElement>;
-  public image: string = '';
+  public title = "Ver/Editar producto";
+  public form: FormGroup;
+  public id: number;
+  public producto: Product;
+  public categorias: Categoria;
+  public umedidas: Umedida;
+  public action: string;
+  public file;
 
-  title = 'Ver/Editar producto';
-  form: FormGroup;
-  id: number;
-  producto: Product;
-  categorias: Categoria;
-  umedidas: Umedida;
-  action: string;
-  file;
+  public imageProductos = [];
+  public colorProductos = [];
+  private nombreEmpresa = "";
 
   constructor(
     private dialogRef: MatDialogRef<ProductEditComponent>,
@@ -37,119 +52,222 @@ export class ProductEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     public repoService: ProductService,
-    private snackBar:MatSnackBar,
+    private snackBar: MatSnackBar,
+    private authService: AuthService,
     private ngxService: NgxUiLoaderService
-    )
-    {
-      this.id = this.activatedRoute.snapshot.params.id;
-      this.producto = data.producto;
-      this.categorias = data.categorias;
-      this.umedidas = data.umedidas;
-
-    }
+  ) {
+    this.id = this.activatedRoute.snapshot.params.id;
+    this.producto = data.producto;
+    this.categorias = data.categorias;
+    this.umedidas = data.umedidas;
+  }
   ngOnInit(): void {
+    this.nombreEmpresa =
+      this.authService.infoUser.USU_EmpresasUsuarios[0].Nombre;
     this.buildForm();
   }
 
-  createForm()
-  {
-    this.form = this.formBuilder.group({
-      PRO_Codigo: [this.id, Validators.required],
-      PRO_Nombre: [this.id, Validators.required],
-      PRO_Descripcion: [''],
-      CAT_CategoriasCAT_Nombre: ['', Validators.required],
-      UME_UnidadesMedidaUME_Nombre: ['', Validators.required],
-      PRO_PrecioUnidad: ['', Validators.required],
-      PRO_Marca: ['', Validators.required],
-  });
-}
-
-buildForm() {
-
+  buildForm() {
     this.form = new FormGroup({
-        PRO_Id : new FormControl(this.producto.PRO_Id,Validators.required),
-        PRO_Codigo: new FormControl(this.producto.PRO_Codigo),
-        PRO_Nombre: new FormControl(this.producto.PRO_Nombre, Validators.required),
-        PRO_Descripcion: new FormControl(this.producto.PRO_Descripcion),
-        PRO_PrecioUnidad: new FormControl(this.producto.PRO_PrecioUnidad, Validators.required),
-        PRO_Estado : new FormControl(this.producto.PRO_Estado),
-        CAT_Id : new FormControl(this.producto.CAT_Id),
+      PRO_Id: new FormControl(this.producto.PRO_Id, Validators.required),
+      PRO_Codigo: new FormControl(this.producto.PRO_Codigo),
+      PRO_Nombre: new FormControl(
+        this.producto.PRO_Nombre,
+        Validators.required
+      ),
+      PRO_Descripcion: new FormControl(this.producto.PRO_Descripcion),
+      PRO_PrecioUnidad: new FormControl(
+        this.producto.PRO_PrecioUnidad,
+        Validators.required
+      ),
+      PRO_Estado: new FormControl(this.producto.PRO_Estado),
+      CAT_Id: new FormControl(this.producto.CAT_Id),
 
-        PRO_ImgProducto: new FormControl(this.producto.PRO_ImgProducto ? this.producto.PRO_ImgProducto : 'sin-imagen.png'),
-        PRO_Marca: new FormControl(this.producto.PRO_Marca, Validators.required),
-        UME_Id:new FormControl(this.producto.UME_Id),
-        PRO_Tamano: new FormControl(this.producto.PRO_Tamano),
+      PRO_ImgProducto: new FormControl(
+        this.producto.PRO_ImgProducto
+          ? this.producto.PRO_ImgProducto
+          : "sin-imagen.png"
+      ),
+      PRO_Marca: new FormControl(this.producto.PRO_Marca, Validators.required),
+      UME_Id: new FormControl(this.producto.UME_Id),
+      PRO_Tamano: new FormControl(this.producto.PRO_Tamano),
+      PRO_DescripcionDetallada: new FormControl(
+        this.producto.PRO_DescripcionDetallada
+      ),
+      IPR_ImagenesProducto: new FormArray([]),
+      DPR_DetalleProducto: new FormArray([]),
     });
 
-    this.image = `https://netvoz.blob.core.windows.net/productos/${this.form?.get('PRO_ImgProducto').value}`;
-}
+    this.producto.DPR_DetalleProducto.forEach((color: any) =>
+      this.colorProductos.push({
+        DPR_Estado: color.DPR_Estado,
+        DPR_Color: color.DPR_Color,
+        DPR_Id: color.DPR_Id,
+        PRO_Id: color.PRO_Id,
+        $id: color.$id,
+      })
+    );
 
-close() {
-  this.dialogRef.close(null);
-}
-
-async save() {
-  if (this.form.valid) {
-    if(this.file){
-      this.ngxService.start();
-      this.form.get('PRO_ImgProducto').setValue(this.file?.name);
-      await this.saveImage();
-    }
-    this.ngxService.start();
-    this.repoService.updateProduct$(this.form.value,'PRO_Productos/ActualizarProducto').subscribe(data=>{
-      if(data){
-        this.dialogRef.close(true);
-        this.snackBar.open('Producto editado exitosamente',undefined,{
-          panelClass:['bg-success'],
-          duration: 2000
-        });
-      }else{
-        this.snackBar.open('Error al editar producto',undefined,{
-          panelClass:['bg-danger'],
-          duration: 2000
-        });
-      }
-      this.ngxService.stop();
-    });
+    this.producto.IPR_ImagenesProducto.forEach((imagen: any) =>
+      this.imageProductos.push({
+        imagenUrl: `https://netvoz.blob.core.windows.net/productos/${imagen.IPR_RutaImagen}`,
+        IPR_EsImagenPrincipal: imagen.IPR_EsImagenPrincipal,
+        PRO_ProductosPRO_Nombre: imagen.PRO_ProductosPRO_Nombre,
+        IPR_RutaImagen: imagen.IPR_RutaImagen,
+        IPR_Estado: imagen.IPR_Estado,
+        IPR_Id: imagen.IPR_Id,
+        PRO_Id: imagen.PRO_Id,
+        $id: imagen.$id,
+      })
+    );
   }
-}
 
-saveImage = () => new Promise<void>(resolve=> this.repoService.uploadfile(environment.sasP,this.file,this.file?.name,'productos',()=>{
-  this.ngxService.stop();
-  resolve();
-}))
+  addColor = (value) =>
+    this.colorProductos.push({
+      DPR_Color: value,
+    });
 
-onSelectCategoria(CAT_Id:number){
+  removeColor = (index: number) => this.colorProductos.splice(index, 1);
+
+  onSelectCategoria(CAT_Id: number) {
     this.form.patchValue({
-    CAT_Id: CAT_Id
-  });
-  this.form.markAsDirty();
-}
-
-onSelectUmedida(UME_Id:number){
-  this.form.patchValue({
-    UME_Id: UME_Id
- });
- this.form.markAsDirty();
-}
-
-cargarImagen(){
-  const fileElement: HTMLElement = this.fileUploader.nativeElement;
-  fileElement.click();
-}
-
-selectFile(event: Event) {
-  this.file      = (event.target as HTMLInputElement).files[0];
-  if (this.file) {
-    const reader  = new FileReader();
-    reader.onload = () => {
-      this.image  = reader.result as string;
-    };
-    console.log(this.file);
-    reader.readAsDataURL(this.file);
-
+      CAT_Id: CAT_Id,
+    });
+    this.form.markAsDirty();
   }
 
-}
+  onSelectUmedida(UME_Id: number) {
+    this.form.patchValue({
+      UME_Id: UME_Id,
+    });
+    this.form.markAsDirty();
+  }
 
+  cargarImagen() {
+    const fileElement: HTMLElement = this.fileUploader.nativeElement;
+    fileElement.click();
+  }
+
+  selectFile(event: Event) {
+    this.file = (event.target as HTMLInputElement).files[0];
+    if (this.file) {
+      const reader = new FileReader();
+      this.imageProductos.push({
+        IPR_EsImagenPrincipal: this.imageProductos.length === 0 ? true : false,
+        PRO_ProductosPRO_Nombre: `${this.nombreEmpresa}`,
+        IPR_RutaImagen: "",
+        file: this.file,
+        imagenUrl: "",
+      });
+
+      reader.onload = () =>
+        (this.imageProductos[this.imageProductos.length - 1].imagenUrl =
+          reader.result as string);
+
+      reader.readAsDataURL(this.file);
+
+      if (this.imageProductos.length === 1) {
+        this.form.get("PRO_ImgProducto").setValue(this.file?.name);
+      }
+    }
+  }
+
+  removeImageProduct = (index: number) => this.imageProductos.splice(index, 1);
+
+  uploadfile = () =>
+    new Promise<void>((resolve) => {
+      this.imageProductos.forEach(async (elm) => {
+        if (elm?.file) {
+          await this.repoService.uploadfile(
+            environment.sasP,
+            elm.file,
+            elm.IPR_RutaImagen,
+            "productos",
+            () => resolve()
+          );
+        } else {
+          resolve();
+        }
+      });
+    });
+
+  async save() {
+    if (this.form.valid && this.imageProductos.length > 0) {
+      this.ngxService.start();
+
+      this.colorProductos.forEach((elm) => {
+        let value = {};
+
+        Object.entries(elm).forEach(
+          (values: any[]) => (value[values[0]] = values[1])
+        );
+
+        (this.form.get("DPR_DetalleProducto") as FormArray).push(
+          this.formBuilder.group(value)
+        );
+      });
+
+
+      this.imageProductos.forEach((elm, index) => {
+        elm.IPR_RutaImagen = `${this.replaceAll(
+          this.nombreEmpresa,
+          " ",
+          "_"
+        )}_${this.replaceAll(this.form.get("PRO_Nombre").value, " ", "_")}_${
+          index + 1
+        }`;
+        elm.PRO_ProductosPRO_Nombre = this.form.get("PRO_Nombre").value;
+
+        let value = {};
+
+        Object.entries(elm).forEach(
+          (values: any[]) => (value[values[0]] = values[1])
+        );
+
+        (this.form.get("IPR_ImagenesProducto") as FormArray).push(
+          this.formBuilder.group(value)
+        );
+      });
+
+
+      await this.uploadfile();
+
+      this.repoService
+        .updateProduct$(this.form.value, "PRO_Productos/ActualizarProducto")
+        .subscribe((data) => {
+          console.log(data);
+          if (data) {
+            this.dialogRef.close(true);
+            this.snackBar.open("Producto editado exitosamente", undefined, {
+              panelClass: ["bg-success"],
+              duration: 2000,
+            });
+          } else {
+            this.snackBar.open("Error al editar producto", undefined, {
+              panelClass: ["bg-danger"],
+              duration: 2000,
+            });
+          }
+          this.ngxService.stop();
+        });
+    } else {
+      this.snackBar.open(
+        "Todos los campos son obligatorios y se necesita minimo una imagen",
+        undefined,
+        {
+          panelClass: ["bg-danger"],
+          duration: 2000,
+        }
+      );
+    }
+  }
+
+  close() {
+    this.dialogRef.close(null);
+  }
+
+  escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+
+  replaceAll = (str: string, find: any, replace: any) =>
+    str.replace(new RegExp(this.escapeRegExp(find), "g"), replace);
 }
