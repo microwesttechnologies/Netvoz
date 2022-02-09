@@ -42,8 +42,11 @@ export class ProductEditComponent implements OnInit {
   public action: string;
   public file;
 
+  public imageProductosEliminados = [];
+  public colorProductosEliminados = [];
   public imageProductos = [];
   public colorProductos = [];
+
   private nombreEmpresa = "";
 
   constructor(
@@ -124,10 +127,17 @@ export class ProductEditComponent implements OnInit {
 
   addColor = (value) =>
     this.colorProductos.push({
+      PRO_Id: this.producto.PRO_Id,
       DPR_Color: value,
+      DPR_Estado: true,
     });
 
-  removeColor = (index: number) => this.colorProductos.splice(index, 1);
+  removeColor = (index: number) => {
+    if (this.colorProductos[index]?.DPR_Id) {
+      this.colorProductosEliminados.push(this.colorProductos[index].DPR_Id);
+    }
+    this.colorProductos.splice(index, 1);
+  };
 
   onSelectCategoria(CAT_Id: number) {
     this.form.patchValue({
@@ -155,6 +165,7 @@ export class ProductEditComponent implements OnInit {
       this.imageProductos.push({
         IPR_EsImagenPrincipal: this.imageProductos.length === 0 ? true : false,
         PRO_ProductosPRO_Nombre: `${this.nombreEmpresa}`,
+        PRO_Id: this.producto.PRO_Id,
         IPR_RutaImagen: "",
         file: this.file,
         imagenUrl: "",
@@ -172,7 +183,12 @@ export class ProductEditComponent implements OnInit {
     }
   }
 
-  removeImageProduct = (index: number) => this.imageProductos.splice(index, 1);
+  removeImageProduct = (index: number) => {
+    if (this.imageProductos[index]?.IPR_Id) {
+      this.imageProductosEliminados.push(this.imageProductos[index]?.IPR_Id);
+    }
+    this.imageProductos.splice(index, 1);
+  };
 
   uploadfile = () =>
     new Promise<void>((resolve) => {
@@ -196,17 +212,12 @@ export class ProductEditComponent implements OnInit {
       this.ngxService.start();
 
       this.colorProductos.forEach((elm) => {
-        let value = {};
-
-        Object.entries(elm).forEach(
-          (values: any[]) => (value[values[0]] = values[1])
-        );
-
-        (this.form.get("DPR_DetalleProducto") as FormArray).push(
-          this.formBuilder.group(value)
-        );
+        if (!elm?.DPR_Id) {
+          this.repoService
+            .addColorProducto(elm)
+            .subscribe((response) => response);
+        }
       });
-
 
       this.imageProductos.forEach((elm, index) => {
         elm.IPR_RutaImagen = `${this.replaceAll(
@@ -218,25 +229,37 @@ export class ProductEditComponent implements OnInit {
         }`;
         elm.PRO_ProductosPRO_Nombre = this.form.get("PRO_Nombre").value;
 
-        let value = {};
+        if (!elm?.IPR_Id) {
+          this.repoService
+            .addImagenProducto(elm)
+            .subscribe((response) => response);
+        }
 
-        Object.entries(elm).forEach(
-          (values: any[]) => (value[values[0]] = values[1])
-        );
-
-        (this.form.get("IPR_ImagenesProducto") as FormArray).push(
-          this.formBuilder.group(value)
-        );
+        if(index === 0){
+          this.form.get("PRO_ImgProducto").setValue(elm.PRO_ProductosPRO_Nombre);
+        }
       });
 
+      this.imageProductosEliminados.forEach((idImagen) => {
+        this.repoService
+          .deleteImagenProducto(idImagen)
+          .subscribe((response) => response);
+      });
+
+      this.colorProductosEliminados.forEach((idColor) => {
+        this.repoService
+          .deleteColorProducto(idColor)
+          .subscribe((response) => response);
+      });
 
       await this.uploadfile();
 
       this.repoService
         .updateProduct$(this.form.value, "PRO_Productos/ActualizarProducto")
         .subscribe((data) => {
-          console.log(data);
           if (data) {
+            this.colorProductosEliminados = [];
+            this.imageProductosEliminados = [];
             this.dialogRef.close(true);
             this.snackBar.open("Producto editado exitosamente", undefined, {
               panelClass: ["bg-success"],

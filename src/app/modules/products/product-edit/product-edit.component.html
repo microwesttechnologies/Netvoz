@@ -1,98 +1,181 @@
 <h3 mat-dialog-title>{{ title }}</h3>
 <form [formGroup]="form" class="example-form">
-    <div class="row">
-        <div class="col-12">
-            <mat-slide-toggle formControlName="PRO_Estado" color="primary">Estado</mat-slide-toggle>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="imput-full-width">
-                <input matInput placeholder="Codigo" formControlName="PRO_Codigo" required />
-            </mat-form-field>
-        </div>
-        <div class="col-8">
-            <mat-form-field class="imput-full-width">
-                <input matInput placeholder="Nombre" formControlName="PRO_Nombre" required />
-            </mat-form-field>
-        </div>
-        <div class="col-12">
-            <mat-form-field class="imput-full-width">
-                <input matInput placeholder="Descripcion" formControlName="PRO_Descripcion" />
-            </mat-form-field>
-        </div>
-        <div class="col-6">
-            <mat-form-field class="imput-full-width">
-                <input matInput placeholder="Marca" formControlName="PRO_Marca" required />
-            </mat-form-field>
-        </div>
-        <div class="col-6">
-            <app-categoria-select [idCate]="producto.CAT_Id" [categorias]="categorias" (catSelect)="onSelectCategoria($event)">
-            </app-categoria-select>
-        </div>
-        <div class="col-6">
-            <app-umedida-select [idUme]="producto.UME_Id" [uMedidas]="umedidas" (umeSelect)="onSelectUmedida($event)">
-            </app-umedida-select>
-        </div>
-        <div class="col-6">
-            <mat-form-field class="imput-full-width">
-                <input matInput placeholder="Tamaño" formControlName="PRO_Tamano" required />
-            </mat-form-field>
-        </div>
-
-        <div class="col-12">
-            <mat-form-field class="imput-full-width">
-                <!-- appearance="outline" -->
-                <!--   <mat-label>Precio</mat-label> -->
-                <input matInput placeholder="Precio" formControlName="PRO_PrecioUnidad" required />
-            </mat-form-field>
-        </div>
-
-        <!-- Colores -->
-        <div class="col-12">
-            <div class="container-colors">
-                <ng-container *ngFor="let color of colorProductos">
-                    <div class="container-color">
-                        {{color.DPR_Color}}
-                    </div>
-                </ng-container>
-            </div>
-            <mat-form-field class="example-full-widt">
-                <input matInput type="color" placeholder="Colores del producto*" (change)="addColor($event.target.value)" />
-            </mat-form-field>
-        </div>
-
-        <!-- Observaciones -->
-        <div class="col-12">
-            <mat-form-field class="imput-full-width">
-                <mat-label>Descripción detallada</mat-label>
-                <textarea class="textarea" matInput formControlName="PRO_DescripcionDetallada" placeholder="Descripcion del producto"></textarea>
-            </mat-form-field>
-        </div>
-
-        <!-- Imagenes -->
-        <div class="col-12">
-            <button type="button" color="primary" class="btn-primary" mat-raised-button (click)="cargarImagen()">
-              Cargar imagen
-            </button>
-            <input type="file" class="form-control d-none" (change)="selectFile($event)" #fileUploader />
-
-            <div class="d-flex mt-3 container-images">
-                <ng-container *ngFor="let image of imageProductos; index as i">
-                    <div class="container-img">
-                        <i class="fas fa-times" (click)="removeImageProduct(i)"></i>
-                        <img [src]="image.imagenUrl" />
-                    </div>
-                </ng-container>
-            </div>
-        </div>
-
+  <div class="row">
+    <div class="col-12">
+      <mat-slide-toggle formControlName="PRO_Estado" color="primary"
+        >Estado</mat-slide-toggle
+      >
     </div>
+    <div class="col-4">
+      <mat-form-field class="imput-full-width">
+        <input
+          matInput
+          placeholder="Codigo"
+          formControlName="PRO_Codigo"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-8">
+      <mat-form-field class="imput-full-width">
+        <input
+          matInput
+          placeholder="Nombre"
+          formControlName="PRO_Nombre"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-12">
+      <mat-form-field class="imput-full-width">
+        <input
+          matInput
+          placeholder="Descripcion"
+          formControlName="PRO_Descripcion"
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="imput-full-width">
+        <input
+          matInput
+          placeholder="Marca"
+          formControlName="PRO_Marca"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="col-6">
+      <app-categoria-select
+        [idCate]="producto.CAT_Id"
+        [categorias]="categorias"
+        (catSelect)="onSelectCategoria($event)"
+      >
+      </app-categoria-select>
+    </div>
+    <div class="col-6">
+      <app-umedida-select
+        [idUme]="producto.UME_Id"
+        [uMedidas]="umedidas"
+        (umeSelect)="onSelectUmedida($event)"
+      >
+      </app-umedida-select>
+    </div>
+    <div class="col-6">
+      <mat-form-field class="imput-full-width">
+        <input
+          matInput
+          placeholder="Tamaño"
+          formControlName="PRO_Tamano"
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="col-12">
+      <mat-form-field class="imput-full-width">
+        <!-- appearance="outline" -->
+        <!--   <mat-label>Precio</mat-label> -->
+        <input
+          matInput
+          placeholder="Precio"
+          formControlName="PRO_PrecioUnidad"
+          required
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Colores -->
+    <div class="col-12">
+      <div class="container-colors">
+        <ng-container *ngFor="let color of colorProductos; index as i">
+          <div class="container-color">
+            {{ color.DPR_Color }}
+            <i class="fas fa-times" (click)="removeColor(i)"></i>
+          </div>
+        </ng-container>
+      </div>
+      <mat-form-field class="example-full-widt">
+        <input
+          matInput
+          type="color"
+          placeholder="Colores del producto*"
+          (change)="addColor($event.target.value)"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Observaciones -->
+    <div class="col-12">
+      <mat-form-field class="imput-full-width">
+        <mat-label>Descripción detallada</mat-label>
+        <textarea
+          class="textarea"
+          matInput
+          formControlName="PRO_DescripcionDetallada"
+          placeholder="Descripcion del producto"
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <!-- Imagenes -->
+    <div class="col-12">
+      <button
+        type="button"
+        color="primary"
+        class="btn-primary"
+        mat-raised-button
+        (click)="cargarImagen()"
+      >
+        Cargar imagen
+      </button>
+      <input
+        type="file"
+        class="form-control d-none"
+        (change)="selectFile($event)"
+        #fileUploader
+      />
+
+      <div class="d-flex mt-3 container-images">
+        <ng-container *ngFor="let image of imageProductos; index as i">
+          <div class="container-img">
+            <i class="fas fa-times" (click)="removeImageProduct(i)"></i>
+            <img [src]="image.imagenUrl" />
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
 </form>
 <div class="top-15" align="end">
-    <button mat-raised-button (click)="close()">Close</button>
-    <button class="btn-success" mat-raised-button [disabled]="form.invalid" (click)="save()">
+  <button mat-raised-button (click)="close()">Close</button>
+  <button
+    class="btn-success"
+    mat-raised-button
+    [disabled]="form.invalid"
+    (click)="save()"
+  >
     Save
   </button>
 </div>
 
-<ngx-ui-loader blur="15" delay="0" fastFadeOut="true" fgsColor="#FFFFFF" fgsPosition="center-center" fgsSize="100" fgsType="three-strings" gap="24" logoPosition="center-center" logoSize="120" masterLoaderId="master" overlayBorderRadius="0" overlayColor="rgba(40, 40, 40, 0.8)"
-    pbColor="#FFFFFF" hasProgressBar="true" text="Cargando..." textColor="#FFFFFF" textPosition="center-center"></ngx-ui-loader>
+<ngx-ui-loader
+  blur="15"
+  delay="0"
+  fastFadeOut="true"
+  fgsColor="#FFFFFF"
+  fgsPosition="center-center"
+  fgsSize="100"
+  fgsType="three-strings"
+  gap="24"
+  logoPosition="center-center"
+  logoSize="120"
+  masterLoaderId="master"
+  overlayBorderRadius="0"
+  overlayColor="rgba(40, 40, 40, 0.8)"
+  pbColor="#FFFFFF"
+  hasProgressBar="true"
+  text="Cargando..."
+  textColor="#FFFFFF"
+  textPosition="center-center"
+></ngx-ui-loader>

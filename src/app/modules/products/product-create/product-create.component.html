@@ -55,9 +55,10 @@
         <!-- Colores -->
         <div class="col-12">
             <div class="container-colors">
-                <ng-container *ngFor="let color of colorProductos">
+                <ng-container *ngFor="let color of colorProductos; index as i">
                     <div class="container-color">
                         {{color.DPR_Color}}
+                        <i class="fas fa-times" (click)="removeColor(i)"></i>
                     </div>
                 </ng-container>
             </div>

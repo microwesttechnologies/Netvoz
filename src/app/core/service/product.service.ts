@@ -1,40 +1,32 @@
-import { Injectable, PipeTransform } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   HttpClient,
   HttpHeaders,
   HttpErrorResponse,
-} from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject, Subject } from 'rxjs';
-import {
-  tap,
-  map,
-  catchError,
-} from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { Product } from '../../Data/models/product';
-import { environment } from '../../../environments/environment';
-import { ResponsiveI } from '../../Data/models/responsive';
-import { BlobServiceClient, ContainerClient } from '@azure/storage-blob';
+} from "@angular/common/http";
+import { Observable, throwError, Subject } from "rxjs";
+import { tap, map, catchError } from "rxjs/operators";
+import { Router } from "@angular/router";
+import { Product } from "../../Data/models/product";
+import { environment } from "../../../environments/environment";
+import { ResponsiveI } from "../../Data/models/responsive";
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ProductService {
-  // private _loading$ = new BehaviorSubject<boolean>(true);
-  // private _search$ = new Subject<void>();
-  // private _products$ = new BehaviorSubject<Product[]>([]);
-  // private _total$ = new BehaviorSubject<number>(0);
   headers = new HttpHeaders({
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   });
 
   private products: Product[];
   private products$ = new Subject<Product[]>();
 
-  private account = 'netvoz';
+  private account = "netvoz";
 
   // public product: Observable<Product>;
-  constructor(private router: Router, private http: HttpClient) { }
+  constructor(private router: Router, private http: HttpClient) {}
 
   // Fetch all articles
   getAllProducts$(route: string): Observable<Product[]> {
@@ -42,7 +34,7 @@ export class ProductService {
       .get<Product[]>(this.createCompleteRoute(route, environment.apiUrl))
       .pipe(
         tap((articles) =>
-          console.log('Number of articles: ' + articles.length)
+          console.log("Number of articles: " + articles.length)
         ),
         catchError(this.handleError)
       );
@@ -53,19 +45,17 @@ export class ProductService {
     return this.http
       .get<Product>(this.createCompleteRoute(route, environment.apiUrl))
       .pipe(
-        tap((product) =>
-          console.log(product.PRO_Codigo + ' ' + product.PRO_Nombre)
-        ),
+        tap((product) => product),
         catchError(this.handleError)
       );
   }
   // Create article
   createProduct = (form: Product): Observable<ResponsiveI> =>
     this.http.post<ResponsiveI>(
-      'https://netvozapi.azurewebsites.net/api/v1/PRO_Productos',
+      "https://netvozapi.azurewebsites.net/api/v1/PRO_Productos",
       form,
       { headers: this.headers }
-    )
+    );
 
   // Update product
   updateProduct$(product: Product, route: string): Observable<Product> {
@@ -76,9 +66,7 @@ export class ProductService {
         this.generateHeaders()
       )
       .pipe(
-        map((res) => {
-          return res;
-        }),
+        map((res) => res),
         catchError(this.handleError)
       );
   }
@@ -91,9 +79,7 @@ export class ProductService {
         this.generateHeaders()
       )
       .pipe(
-        map((res) => {
-          return res;
-        }),
+        map((res) => res),
         catchError(this.handleError)
       );
   }
@@ -107,20 +93,67 @@ export class ProductService {
       .pipe(
         map((res) => res),
         catchError(this.handleError)
+      );
+
+  /** Productos e imagenes */
+  public addColorProducto = (params): Observable<any> =>
+    this.http
+      .post<any>(
+        `${environment.apiUrl}DPR_DetalleProducto`,
+        params,
+        this.generateHeaders()
       )
+      .pipe(
+        map((res) => res),
+        catchError(this.handleError)
+      );
+
+  public addImagenProducto = (params): Observable<any> =>
+    this.http
+      .post<any>(
+        `${environment.apiUrl}IPR_ImagenesProducto`,
+        params,
+        this.generateHeaders()
+      )
+      .pipe(
+        map((res) => res),
+        catchError(this.handleError)
+      );
+
+  public deleteColorProducto = (id: string | number): Observable<any> =>
+    this.http
+      .delete<any>(
+        `${environment.apiUrl}DPR_DetalleProducto/${id}`,
+        this.generateHeaders()
+      )
+      .pipe(
+        map((res) => res),
+        catchError(this.handleError)
+      );
+
+  public deleteImagenProducto = (id: string | number): Observable<any> =>
+    this.http
+      .delete<any>(
+        `${environment.apiUrl}IPR_ImagenesProducto/${id}`,
+        this.generateHeaders()
+      )
+      .pipe(
+        map((res) => res),
+        catchError(this.handleError)
+      );
 
   public upload(data, route): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization:
-        'Bearer ' + JSON.parse(localStorage.getItem('userNetvoz')).access_token,
+        "Bearer " + JSON.parse(localStorage.getItem("userNetvoz")).access_token,
     });
     return this.http
       .post<any>(this.createCompleteRoute(route, environment.apiUrl), data, {
         headers,
         reportProgress: true,
-        responseType: 'json',
-        observe: 'events',
+        responseType: "json",
+        observe: "events",
       })
       .pipe(
         map((res) => {
@@ -140,9 +173,11 @@ export class ProductService {
     return result;
   }
 
-  private containerClient = (sas?: string, container?: string): ContainerClient => {
-
-    let token = '';
+  private containerClient = (
+    sas?: string,
+    container?: string
+  ): ContainerClient => {
+    let token = "";
     if (sas) {
       token = sas;
     }
@@ -150,17 +185,31 @@ export class ProductService {
     return new BlobServiceClient(
       `https://${this.account}.blob.core.windows.net?${token}`
     ).getContainerClient(container);
-  }
+  };
 
-  public uploadfile = (sas: string, file: Blob, name: string, container: string, handler: () => void) => {
-    const blockBlobCliente = this.containerClient(sas, container).getBlockBlobClient(name);
-    blockBlobCliente.uploadData(file, { blobHTTPHeaders: { blobContentType: file.type } }).then(() => handler());
-  }
+  public uploadfile = (
+    sas: string,
+    file: Blob,
+    name: string,
+    container: string,
+    handler: () => void
+  ) => {
+    const blockBlobCliente = this.containerClient(
+      sas,
+      container
+    ).getBlockBlobClient(name);
+
+    blockBlobCliente
+      .uploadData(file, { blobHTTPHeaders: { blobContentType: file.type } })
+      .then(() => handler());
+  };
+
+  public deleteFile = () => {};
 
   UploadJson(data: JSON, route: string) {
     const headers = new HttpHeaders();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
+    headers.append("Content-Type", "application/json");
+    headers.append("Accept", "application/json");
     const httpOptions = { headers };
 
     return this.http.post(
@@ -172,8 +221,8 @@ export class ProductService {
 
   UploadExcel(formData: FormData, route: string) {
     const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
-    headers.append('Accept', 'application/json');
+    headers.append("Content-Type", "multipart/form-data");
+    headers.append("Accept", "application/json");
     const httpOptions = { headers };
 
     return this.http.post(
@@ -188,7 +237,7 @@ export class ProductService {
       .get<Product[]>(this.createCompleteRoute(route, environment.apiUrl))
       .pipe(
         tap((produtsLoad) =>
-          console.log('Numero productos cargados: ' + produtsLoad.length)
+          console.log("Numero productos cargados: " + produtsLoad.length)
         ),
         catchError(this.handleError)
       );
@@ -197,22 +246,23 @@ export class ProductService {
   private generateHeaders = () => {
     return {
       headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization:
-          'Bearer ' +
-          JSON.parse(localStorage.getItem('userNetvoz')).access_token,
+          "Bearer " +
+          JSON.parse(localStorage.getItem("userNetvoz")).access_token,
       }),
     };
-  }
+  };
 
-  private createCompleteRoute = (route: string, envAddress: string) => `${envAddress}${route}`;
+  private createCompleteRoute = (route: string, envAddress: string) =>
+    `${envAddress}${route}`;
 
   private handleError(error: any) {
     return throwError(error);
   }
 
   errorMgmt(error: HttpErrorResponse) {
-    let errorMessage = '';
+    let errorMessage = "";
     if (error.error instanceof ErrorEvent) {
       // Get client-side error
       errorMessage = error.error.message;
