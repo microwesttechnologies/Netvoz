@@ -199,12 +199,29 @@ export class ProductService {
       container
     ).getBlockBlobClient(name);
 
+    console.log("202", blockBlobCliente);
     blockBlobCliente
       .uploadData(file, { blobHTTPHeaders: { blobContentType: file.type } })
       .then(() => handler());
   };
 
-  public deleteFile = () => {};
+  public deleteFile = async (
+    sas: string,
+    name: string,
+    container: string
+  ) => {
+    const blockBlobCliente = this.containerClient(
+      sas,
+      container
+    ).getBlockBlobClient(name);
+
+    console.log("214", blockBlobCliente);
+
+    const deleteBlob = await blockBlobCliente.deleteIfExists();
+    console.log("217", deleteBlob);
+
+    return `Deleted Blob ${name} successfully ${deleteBlob.requestId}`;
+  };
 
   UploadJson(data: JSON, route: string) {
     const headers = new HttpHeaders();

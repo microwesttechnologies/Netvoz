@@ -185,7 +185,7 @@ export class ProductEditComponent implements OnInit {
 
   removeImageProduct = (index: number) => {
     if (this.imageProductos[index]?.IPR_Id) {
-      this.imageProductosEliminados.push(this.imageProductos[index]?.IPR_Id);
+      this.imageProductosEliminados.push(this.imageProductos[index]);
     }
     this.imageProductos.splice(index, 1);
   };
@@ -206,6 +206,16 @@ export class ProductEditComponent implements OnInit {
         }
       });
     });
+
+    deleteFile = () => {
+      new Promise<void>((resolve) => {
+        this.imageProductosEliminados.forEach(async(elm)=>{
+          const response = await this.repoService.deleteFile(environment.sasP,elm.IPR_RutaImagen,"productos");
+          console.log(response);
+          resolve();
+        })
+      })
+    }
 
   async save() {
     if (this.form.valid && this.imageProductos.length > 0) {
@@ -236,13 +246,13 @@ export class ProductEditComponent implements OnInit {
         }
 
         if(index === 0){
-          this.form.get("PRO_ImgProducto").setValue(elm.PRO_ProductosPRO_Nombre);
+          this.form.get("PRO_ImgProducto").setValue(elm.IPR_RutaImagen);
         }
       });
 
-      this.imageProductosEliminados.forEach((idImagen) => {
+      this.imageProductosEliminados.forEach((elm) => {
         this.repoService
-          .deleteImagenProducto(idImagen)
+          .deleteImagenProducto(elm.IPR_Id)
           .subscribe((response) => response);
       });
 
@@ -253,6 +263,7 @@ export class ProductEditComponent implements OnInit {
       });
 
       await this.uploadfile();
+      await this.deleteFile();
 
       this.repoService
         .updateProduct$(this.form.value, "PRO_Productos/ActualizarProducto")

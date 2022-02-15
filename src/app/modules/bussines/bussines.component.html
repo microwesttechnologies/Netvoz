@@ -1,6 +1,6 @@
 <div class="container" data-aos="fade-right">
   <div class="form">
-    <h1 class="tittle">Creacion de empresa</h1>
+    <h1 class="tittle">Creación de empresa</h1>
     <form [formGroup]="bussinesForm">
       <div class="container-image">
         <div class="image">
@@ -34,7 +34,7 @@
             <input
               type="number"
               matInput
-              placeholder="Numero de identificacion"
+              placeholder="Número de identificación"
               formControlName="EMP_Nit"
             />
           </mat-form-field>
@@ -56,7 +56,7 @@
         <!-- Clasificacion -->
         <div class="col-sm-12 col-md-6">
           <mat-form-field class="imput-full-width">
-            <mat-label>Clasificacion</mat-label>
+            <mat-label>Clasificación</mat-label>
             <mat-select formControlName="CEM_Id">
               <ng-container *ngFor="let clasificacion of clasificaciones">
                 <mat-option [value]="clasificacion.CEM_Id">{{
@@ -72,7 +72,7 @@
             <input
               type="text"
               matInput
-              placeholder="Direccion"
+              placeholder="Dirección"
               formControlName="EMP_Direccion"
             />
           </mat-form-field>
@@ -109,7 +109,7 @@
             <input
               type="number"
               matInput
-              placeholder="Numero de cuenta"
+              placeholder="Número de cuenta"
               formControlName="EMP_NumeroCuenta"
             />
           </mat-form-field>
@@ -202,29 +202,12 @@
         <div class="col-sm-12 col-md-4">
           <mat-form-field class="example-full-widt">
             <input
-              placeholder="Colores del producto*"
+              placeholder="Colores del producto"
               formControlName="EMP_Color"
               type="color"
-              required
               matInput
             />
 
-            <!-- <mat-chip-list
-              #chipList
-              aria-label="color selection"
-              formControlName="EMP_Color"
-            >
-              <mat-chip
-                *ngFor="let color of colors"
-                [selectable]="selectable"
-                [removable]="removable"
-                (removed)="remove(color)"
-              >
-                {{ color.name }}
-                <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-              </mat-chip> -->
-
-            <!-- </mat-chip-list> -->
           </mat-form-field>
         </div>
         <!--Row 5-->
