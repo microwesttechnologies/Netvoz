@@ -108,9 +108,7 @@ export class BussinesComponent implements OnInit {
     this.getCiudades();
 
     this.bussinesForm.get("DEP_Id").valueChanges.subscribe((id) => {
-      console.log(this.bussinesForm.get("DEP_Id").value,id);
-      
-      if (!this.bussinesForm.get("DEP_Id").value && id) {
+      if (this.bussinesForm.get("DEP_Id").value !== '' && id) {
         this.getCiudadesByDepartamento(id);
         this.bussinesForm.get("DEP_Id").setValue(id);
       }
@@ -141,10 +139,6 @@ export class BussinesComponent implements OnInit {
   cargarImagen() {
     const fileElement: HTMLElement = this.fileUploader.nativeElement;
     fileElement.click();
-  }
-
-  log = () => {
-    console.log('Entra');
   }
 
   selectFile(event: Event) {
@@ -189,10 +183,7 @@ export class BussinesComponent implements OnInit {
               panelClass: ["bg-success"],
               duration: 2000,
             });
-            this.bussinesForm.reset();
-            this.bussinesForm.get("EMP_Estado").setValue(true);
-            this.bussinesForm.get("EMP_PorcentajeComision").setValue(0);
-
+            setTimeout(() => window.location.reload(), 2000);
           });
         }
       );
