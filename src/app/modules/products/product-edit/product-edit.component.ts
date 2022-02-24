@@ -164,6 +164,7 @@ export class ProductEditComponent implements OnInit {
       const reader = new FileReader();
       this.imageProductos.push({
         IPR_EsImagenPrincipal: this.imageProductos.length === 0 ? true : false,
+        ext: this.file.name.split('.')[this.file.name.split('.').length - 1],
         PRO_ProductosPRO_Nombre: `${this.nombreEmpresa}`,
         PRO_Id: this.producto.PRO_Id,
         IPR_RutaImagen: "",
@@ -211,7 +212,6 @@ export class ProductEditComponent implements OnInit {
       new Promise<void>((resolve) => {
         this.imageProductosEliminados.forEach(async(elm)=>{
           const response = await this.repoService.deleteFile(environment.sasP,elm.IPR_RutaImagen,"productos");
-          console.log(response);
           resolve();
         })
       })
@@ -236,7 +236,8 @@ export class ProductEditComponent implements OnInit {
           "_"
         )}_${this.replaceAll(this.form.get("PRO_Nombre").value, " ", "_")}_${
           index + 1
-        }`;
+        }.${elm.ext}`;
+        
         elm.PRO_ProductosPRO_Nombre = this.form.get("PRO_Nombre").value;
 
         if (!elm?.IPR_Id) {
@@ -263,7 +264,7 @@ export class ProductEditComponent implements OnInit {
       });
 
       await this.uploadfile();
-      await this.deleteFile();
+      //await this.deleteFile();
 
       this.repoService
         .updateProduct$(this.form.value, "PRO_Productos/ActualizarProducto")

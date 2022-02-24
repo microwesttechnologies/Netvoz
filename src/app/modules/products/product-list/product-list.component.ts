@@ -86,7 +86,7 @@ export class ProductListComponent implements OnInit, AfterViewInit {
       idempresa = data.USU_EmpresasUsuarios[0].Codigo;
 
       this.repoService
-        .getAllProducts$(`PRO_Productos/GetProductosEmpresa/${idempresa}`)
+        .getAllProducts$(`PRO_Productos/GetAllProductosEmpresa/${idempresa}`)
         .subscribe(
           (data) => (this.dataSource.data = data),
           (errorCode) => {

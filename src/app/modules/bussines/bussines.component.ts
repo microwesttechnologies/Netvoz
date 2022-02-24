@@ -108,9 +108,8 @@ export class BussinesComponent implements OnInit {
     this.getCiudades();
 
     this.bussinesForm.get("DEP_Id").valueChanges.subscribe((id) => {
-      if (this.bussinesForm.get("DEP_Id").value !== '' && id) {
+      if (this.bussinesForm.get("DEP_Id").value !== '') {
         this.getCiudadesByDepartamento(id);
-        this.bussinesForm.get("DEP_Id").setValue(id);
       }
       this.bussinesForm.get("CIU_Id").setValue("");
     });
@@ -157,26 +156,27 @@ export class BussinesComponent implements OnInit {
 
   save() {
     if (this.bussinesForm.valid) {
-      this.ngxService.start();
-      this.apiImage.uploadfile(
-        environment.sasE,
-        this.file,
-        `Empresa_${this.replaceAll(
-          this.bussinesForm.get("EMP_Nombre").value,
-          " ",
-          "_"
-        )}`,
-        "empresas",
-        () => {
-          this.bussinesForm
+
+      const ext = this.file.name.split('.')[this.file.name.split('.').length - 1];
+
+      this.bussinesForm
             .get("EMP_Imagen")
             .setValue(
               `Empresa_${this.replaceAll(
                 this.bussinesForm.get("EMP_Nombre").value,
                 " ",
                 "_"
-              )}`
+              )}.${ext}`
             );
+
+      this.ngxService.start();
+      this.apiImage.uploadfile(
+        environment.sasE,
+        this.file,
+        this.bussinesForm
+            .get("EMP_Imagen").value,
+        "empresas",
+        () => {
           this.api.postBussines(this.bussinesForm.value).subscribe((data) => {
             this.ngxService.stop();
             this.snackBar.open("Empresa agregada exitosamente", undefined, {

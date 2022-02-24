@@ -19,8 +19,6 @@ export class CategoriaSelectComponent implements OnInit {
   }
 
   onSelectCategoria(value) {
-      //console.log(value);
-    
   }
 
 }

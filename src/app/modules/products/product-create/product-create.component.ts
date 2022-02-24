@@ -74,7 +74,7 @@ export class ProductCreateComponent implements OnInit {
       PRO_Marca: ["", [Validators.required]],
       UME_Id: ["", [Validators.required]],
       PRO_Tamano: ["", [Validators.required]],
-      PRO_Eliminado: true,
+      PRO_Eliminado: false,
       PRO_DescripcionDetallada: [""],
       IPR_ImagenesProducto: new FormArray([]),
       DPR_DetalleProducto: new FormArray([]),
@@ -112,6 +112,7 @@ export class ProductCreateComponent implements OnInit {
 
       this.imageProductos.push({
         IPR_EsImagenPrincipal: this.imageProductos.length === 0 ? true : false,
+        ext: this.file.name.split('.')[this.file.name.split('.').length - 1],
         PRO_ProductosPRO_Nombre: "",
         IPR_RutaImagen: "",
         file: this.file,
@@ -159,7 +160,7 @@ export class ProductCreateComponent implements OnInit {
       );
 
       this.imageProductos.forEach((elm,index) =>{
-        elm.IPR_RutaImagen = `${this.replaceAll(this.nombreEmpresa,' ','_')}_${this.replaceAll(this.form.get('PRO_Nombre').value,' ','_')}_${index+1}`;
+        elm.IPR_RutaImagen = `${this.replaceAll(this.nombreEmpresa,' ','_')}_${this.replaceAll(this.form.get('PRO_Nombre').value,' ','_')}_${index+1}.${elm.ext}`;
         (this.form.get("IPR_ImagenesProducto") as FormArray).push(
           this.formBuilder.group({
             PRO_ProductosPRO_Nombre: this.form.get('PRO_Nombre').value,
@@ -167,7 +168,10 @@ export class ProductCreateComponent implements OnInit {
             IPR_RutaImagen: elm.IPR_RutaImagen,
             IPR_Estado: true
           })
-        )
+        );
+        if(index === 0){
+          this.form.get("PRO_ImgProducto").setValue(elm.IPR_RutaImagen);
+        }
       }
       );
 

@@ -202,7 +202,6 @@ export class RegisterComponent implements OnInit {
 
       this.api.postUser(dataUser).subscribe((data) => {
         if (data) {
-          console.log("Entra");
         }
       });
       this.alertService.opensweetalert(
@@ -211,7 +210,6 @@ export class RegisterComponent implements OnInit {
         "En un momento uno de nuestros asesores se pondra en contacto contigo para activar tu cuenta"
       );
     } else {
-      console.log("Error", this.codigo, codigo, +codigo);
       this.alertService.opensweetalert(
         "error",
         "Codigo invalido",
